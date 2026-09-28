@@ -3,3 +3,6 @@
 // (jeder angemeldete Nutzer sieht ausschließlich seine eigenen Daten).
 export const SUPABASE_URL = "https://mvcwhvntbvnldqimjiki.supabase.co";
 export const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im12Y3dodm50YnZubGRxaW1qaWtpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA2MDE3MzAsImV4cCI6MjEwNjE3NzczMH0._Ar5wQHzxZInIL9VhbtEFjLjb7VxZ9WishHm6lGJtFo";
+
+// Die App hat genau ein Konto – die E-Mail wird im Anmeldefenster vorausgefüllt.
+export const LOGIN_EMAIL = "nilscre.ac@gmail.com";

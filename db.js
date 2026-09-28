@@ -3,7 +3,7 @@
 // (db.doc("sites/x").update(...), db.collection("chat").orderBy(...).onSnapshot(...)),
 // damit der Board-Code unverändert bleiben kann. Dazu die Anmeldung per E-Mail + Passwort.
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/+esm";
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from "./config.js";
+import { SUPABASE_URL, SUPABASE_ANON_KEY, LOGIN_EMAIL } from "./config.js";
 
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: "implicit" },
@@ -156,7 +156,7 @@ window.crestraDB = async function () {
   if (data.session && !recovery) return db;
   const box = $("login"), form = $("loginForm"), msg = $("loginMsg"), email = $("loginEmail"), pass = $("loginPass");
   box.hidden = false;
-  try { email.value = localStorage.getItem("kb_email") || ""; } catch (e) {}
+  email.value = LOGIN_EMAIL || "";
   showForm(data.session && recovery ? "new" : "login");
 
   $("loginReset").onclick = async () => {
