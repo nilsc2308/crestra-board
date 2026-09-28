@@ -3,3 +3,4 @@ _quelle-claude-board.html
 .DS_Store
 node_modules/
 *.tar.gz
+_claude-chat.js
