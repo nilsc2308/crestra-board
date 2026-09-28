@@ -264,6 +264,77 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
 .chat__form textarea{flex:1;resize:none;border:1px solid var(--line);background:var(--surface-2);border-radius:12px;padding:10px 12px;font-size:16px;max-height:140px;min-height:44px}
 .chat__form .btn{min-height:44px}
 .chat[hidden],.fab[hidden],.fab i[hidden]{display:none}
+.lbl-short,.appnav{display:none}
+/* Begrüßung */
+.hello{padding:4px 0 14px}
+.hello h1{font-family:var(--display);font-weight:800;font-size:clamp(28px,4vw,36px);letter-spacing:-.03em;margin:0;line-height:1.1}
+.hello p{margin:4px 0 0;color:var(--ink-2);font-size:15px}
+.hello__acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.hello__acts:empty,.hello__acts:has(> [hidden]:only-child){display:none}
+.chip{border:1px solid var(--line-2);background:var(--surface);border-radius:999px;padding:7px 12px;font-weight:600;font-size:13.5px;cursor:pointer}
+.install{display:grid;grid-template-columns:1fr auto;gap:4px 10px;background:var(--accent-soft);border:1px solid var(--accent);border-radius:16px;padding:12px 14px;margin-bottom:12px;font-size:14px}
+.install b:first-child{grid-column:1;font-family:var(--display);font-size:16px}
+.install span{grid-column:1}
+.install svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;vertical-align:-3px}
+.install button{grid-row:1/3;grid-column:2;align-self:start;background:none;border:0;font-size:16px;cursor:pointer;color:var(--ink-2)}
+/* Wisch-Aktionen */
+.swipe{position:relative;border-radius:14px}
+.swipe__bg{position:absolute;inset:0;border-radius:inherit;display:flex;justify-content:space-between;align-items:center;padding:0 18px;font-weight:700;font-size:14px;color:#fff;background:var(--green);opacity:0}
+.swipe__bg.left{background:var(--red)}
+.swipe__bg span:last-child{display:none}.swipe__bg.left span:first-child{display:none}.swipe__bg.left span:last-child{display:block;margin-left:auto}
+.swipe .tcard{position:relative;touch-action:pan-y}
+.swipe.moving .tcard{transition:none}
+.swipe .tcard{transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.swipe-hint{font-size:12.5px;color:var(--ink-3);margin:0 0 8px}
+
+/* ---------- Handy: App-Ansicht ---------- */
+@media (max-width:640px){
+  html{-webkit-tap-highlight-color:transparent}
+  body{padding-inline:12px;padding-bottom:calc(84px + env(safe-area-inset-bottom,0px));overscroll-behavior-y:none}
+  button,.btn,.tab,.navbtn,.day,.kcard,.tcard .n,.chip{-webkit-user-select:none;user-select:none}
+  .lbl-long{display:none}.lbl-short{display:inline}
+  .top{position:sticky;top:0;z-index:12;margin-inline:-12px;padding:10px 12px;flex-wrap:nowrap;background:color-mix(in srgb,var(--ground) 86%,transparent);-webkit-backdrop-filter:saturate(1.6) blur(16px);backdrop-filter:saturate(1.6) blur(16px);border-bottom:1px solid transparent}
+  .top.scrolled{border-bottom-color:var(--line)}
+  .brand b{font-size:24px}.brand span{font-size:15px}
+  .top .btn{flex:none;padding:8px 12px;border-radius:999px}
+  .money{border-radius:20px;padding:16px}
+  .money .big{font-size:40px}
+  .stats{gap:8px}.stat{border-radius:16px;padding:12px}.stat strong{font-size:26px}
+  .week{margin-top:10px}
+  .tabs{border-bottom:0;margin-top:14px}
+  .tabs .tab{display:none}
+  .tools{padding-bottom:0}
+  .search{border-radius:12px;min-height:44px}
+  .view{margin-top:12px}
+  .col h3{font-size:19px}
+  .tcard{border-radius:18px;padding:14px;border-left-width:0;box-shadow:inset 4px 0 0 var(--stage)}
+  .swipe{border-radius:18px}
+  .tcard .acts .btn{flex:1;min-height:42px}
+  .phone a{font-size:15px;padding:6px 0}
+  .pipe{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:86%;scroll-snap-type:x mandatory;margin-inline:-12px;padding:0 12px 8px;scroll-padding-inline:12px;gap:10px}
+  .lane{scroll-snap-align:start;border-radius:18px;min-height:60vh}
+  .pipe+p{display:none}
+  .kcard{border-radius:14px;padding:12px}
+  tbody tr{border-radius:18px}
+  .fab{display:none}
+  .appnav{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;z-index:14;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));background:color-mix(in srgb,var(--surface) 88%,transparent);-webkit-backdrop-filter:saturate(1.6) blur(18px);backdrop-filter:saturate(1.6) blur(18px);border-top:1px solid var(--line)}
+  .navbtn{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;padding:6px 0 4px;font-size:11.5px;font-weight:700;color:var(--ink-3);cursor:pointer;border-radius:12px}
+  .navbtn svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .navbtn[aria-selected="true"]{color:var(--accent)}
+  .navbtn[aria-selected="true"] svg{stroke-width:2.2}
+  .navbtn:active{background:var(--surface-2)}
+  .navbtn b{position:absolute;top:2px;left:calc(50% + 6px);min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--red);color:#fff;font-size:11px;line-height:18px;font-family:var(--mono)}
+  .navbtn i{position:absolute;top:5px;left:calc(50% + 9px);width:9px;height:9px;border-radius:50%;background:var(--red)}
+  .drawer{width:100%;top:env(safe-area-inset-top,0px);border-radius:18px 18px 0 0;animation:sheet .28s cubic-bezier(.2,.8,.2,1)}
+  .drawer__hd{padding:16px}
+  .drawer__bd{padding:16px 16px calc(28px + env(safe-area-inset-bottom,0px))}
+  .quick .btn{min-height:40px}
+  .chat{top:env(safe-area-inset-top,0px);border-radius:18px 18px 0 0;animation:sheet .28s cubic-bezier(.2,.8,.2,1)}
+  .toast{bottom:calc(92px + env(safe-area-inset-bottom,0px))}
+}
+@media (display-mode:standalone){.top{padding-top:calc(10px + env(safe-area-inset-top,0px));margin-top:calc(-1 * env(safe-area-inset-top,0px))}}
+@keyframes sheet{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.drawer,.chat{animation:none}.swipe .tcard{transition:none}}
 @media (max-width:640px){.chat{inset:0;width:auto;height:auto;border-radius:0;border:0}}
 @media (prefers-reduced-motion:reduce){.skel{animation:none}.goal__bar i,.dial__prog i{transition:none}}
 </style>
@@ -273,10 +344,13 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
 <div class="wrap">
   <header class="top">
     <div class="brand"><b>crestra</b><span>Kundenboard</span></div>
-    <button class="btn btn--dark" id="dialBtn" type="button">☎ Anruf-Modus starten</button>
-    <button class="btn" id="addBtn" type="button">+ Website</button>
+    <button class="btn btn--dark" id="dialBtn" type="button">☎<span class="lbl-long"> Anruf-Modus starten</span><span class="lbl-short"> Anrufen</span></button>
+    <button class="btn" id="addBtn" type="button" aria-label="Website eintragen">+<span class="lbl-long"> Website</span></button>
   </header>
 
+  <section class="hello" id="hello"><h1 id="helloT">Hallo, Nils</h1><p id="helloS"></p>
+    <div class="hello__acts"><button type="button" class="chip" id="badgeBtn" hidden>🔔 Zahl am App-Symbol einschalten</button></div></section>
+  <div class="install" id="install" hidden><b>Als App installieren</b><span>Tippe unten in Safari auf <b>Teilen</b> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg> und dann auf <b>„Zum Home-Bildschirm“</b>.</span><button type="button" id="installX" aria-label="Hinweis schließen">✕</button></div>
   <section class="over" aria-label="Überblick">
     <div class="money">
       <small>Monatlicher Umsatz</small>
@@ -326,6 +400,12 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
 <dialog id="dialDlg" aria-label="Anruf-Modus"><div class="dial" id="dial"></div></dialog>
 <canvas id="fx"></canvas>
 <div class="toast" id="toast" role="status"></div>
+<nav class="appnav" aria-label="Bereiche">
+  <button type="button" class="navbtn" data-tab="heute"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Heute<b id="navDue" hidden></b></button>
+  <button type="button" class="navbtn" data-tab="pipeline"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4" width="4.5" height="16" rx="1.5"/><rect x="9.75" y="4" width="4.5" height="11" rx="1.5"/><rect x="16" y="4" width="4.5" height="7" rx="1.5"/></svg>Pipeline</button>
+  <button type="button" class="navbtn" data-tab="liste"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></svg>Alle</button>
+  <button type="button" class="navbtn" id="navChat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a7.5 7.5 0 0 1-11.2 6.5L4 20l1.4-4.3A7.5 7.5 0 1 1 20 12z"/></svg>Claude<i id="navDot" hidden></i></button>
+</nav>
 <button class="fab" id="chatFab" type="button" aria-label="Chat mit Claude öffnen">💬 Claude<i id="chatDot" hidden></i></button>
 <section class="chat" id="chat" hidden aria-label="Chat mit Claude">
   <header class="chat__hd"><div style="flex:1"><b>Chat mit Claude</b><small id="chatState">Verbinde …</small></div><button class="btn btn--ghost btn--sm" type="button" id="chatX" aria-label="Chat schließen">✕</button></header>
@@ -392,7 +472,8 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
     $("#goalBar").style.width=pct.toFixed(1)+"%";
     $("#goalTxt").textContent=`Ziel ${eur(goal)} / Monat · ${pct<100?"noch "+eur(goal-mrr)+" (≈ "+Math.ceil((goal-mrr)/DEF_MONTH)+" Kunden)":"erreicht!"}`;
     const due=sites.filter(isDue), over=due.filter(s=>s.followUp<TODAY).length;
-    $("#sDue").textContent=due.length; $("#sDueSub").textContent=over?over+" überfällig":"Follow-ups";
+    $("#sDue").textContent=due.length; $("#navDue").hidden=!due.length; $("#navDue").textContent=due.length;
+    renderHello(due); $("#sDueSub").textContent=over?over+" überfällig":"Follow-ups";
     $("#stDue").classList.toggle("stat--warn",over>0);
     $("#sOpen").textContent=sites.filter(s=>s.stage==="neu").length;
     const since=addDays(-6); let c=0; sites.forEach(s=>(s.log||[]).forEach(l=>{if(l.d>=since&&/anruf|angerufen|erreicht|termin|entwurf|gewonnen|interesse|gesprochen|rückruf|nachfass/i.test(l.t))c++}));
@@ -409,7 +490,7 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
 
   /* ---------- Ansichten ---------- */
   function renderView(){
-    document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",t.dataset.tab===tab));
+    document.querySelectorAll(".tab,.navbtn[data-tab]").forEach(t=>t.setAttribute("aria-selected",t.dataset.tab===tab));
     const v=$("#view"); if(!loaded)return;
     if(!sites.length){v.innerHTML=`<div class="empty">Noch keine Websites. Mit „+ Website“ eintragen.</div>`;return}
     if(tab==="heute")v.innerHTML=viewToday();
@@ -417,10 +498,10 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
     else v.innerHTML=viewList();
   }
   function tcard(s,acts){
-    return`<div class="tcard" style="${stageVars(s)}"><div><div class="n" data-open="${esc(s.id)}">${esc(s.name)}</div>
+    return`<div class="swipe" data-sw="${esc(s.id)}"><div class="swipe__bg" aria-hidden="true"><span>✓ Erreicht</span><span>Nicht erreicht ✕</span></div><div class="tcard" style="${stageVars(s)}"><div><div class="n" data-open="${esc(s.id)}">${esc(s.name)}</div>
       <div class="s">${esc(s.next||s.branche||"")}${s.ort?" · "+esc(s.ort):""}</div></div>
       <div style="text-align:right">${rel(s)||pill(s)}</div>
-      <div class="acts">${phone(s)}${acts}</div></div>`;
+      <div class="acts">${phone(s)}${acts}</div></div></div>`;
   }
   const quickBtns=s=>`<button class="btn btn--sm" data-qa="nicht" data-id="${esc(s.id)}">Nicht erreicht</button><button class="btn btn--sm" data-qa="erreicht" data-id="${esc(s.id)}">Erreicht</button>`;
   function viewToday(){
@@ -429,7 +510,8 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
     due.sort((a,b)=>a.followUp.localeCompare(b.followUp));
     const fresh=sites.filter(s=>s.stage==="neu"&&!isDue(s)).filter(matches).sort((a,b)=>a.name.localeCompare(b.name,"de"));
     const title=dayFilter&&dayFilter!==TODAY?"Follow-ups am "+deDate(dayFilter):"Heute nachfassen";
-    return`<div class="today-grid">
+    const hint=matchMedia("(pointer:coarse)").matches&&(due.length||fresh.length)?`<p class="swipe-hint">Tipp: Karte nach rechts wischen = erreicht, nach links = nicht erreicht.</p>`:"";
+    return hint+`<div class="today-grid">
       <div class="col"><h3>${title}<span>${due.length}</span>${dayFilter?`<button class="btn btn--sm btn--ghost" data-day="">alle</button>`:""}</h3><div class="stack">
         ${due.length?due.map(s=>tcard(s,quickBtns(s))).join(""):`<div class="empty">Nichts fällig${dayFilter?" an diesem Tag":""}. ${fresh.length?"Perfekt für Erstanrufe rechts.":""}</div>`}</div></div>
       <div class="col"><h3>Erstanrufe<span>${fresh.length}</span></h3><div class="stack">
@@ -463,6 +545,49 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
         <td>${s.neu?`<a href="${esc(s.neu)}" target="_blank" rel="noopener">öffnen ↗</a>`:`<span style="color:var(--ink-3)">${esc(ONLINE[s.online]||"")}</span>`}</td></tr>`).join("")}
     </tbody></table></div>`;
   }
+  addEventListener("scroll",()=>$(".top").classList.toggle("scrolled",scrollY>4),{passive:true});
+
+  /* ---------- Begrüßung + Zahl am App-Symbol ---------- */
+  const standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+  function renderHello(due){
+    const h=new Date().getHours();
+    $("#helloT").textContent=(h<11?"Guten Morgen":h<18?"Hallo":"Guten Abend")+", Nils";
+    const fresh=sites.filter(s=>s.stage==="neu").length;
+    const parts=[];
+    if(due.length)parts.push(due.length===1?"1 Anruf ist heute dran":due.length+" Anrufe sind heute dran");
+    if(fresh)parts.push(fresh+" Betriebe warten auf den Erstanruf");
+    $("#helloS").textContent=loaded?(parts.join(" · ")||"Alles erledigt – gute Arbeit!"):"";
+    // Zahl am App-Symbol (iPhone: nur als installierte App mit erlaubten Mitteilungen)
+    if("setAppBadge" in navigator){(due.length?navigator.setAppBadge(due.length):navigator.clearAppBadge()).catch(()=>{})}
+    $("#badgeBtn").hidden=!(standalone&&"setAppBadge" in navigator&&"Notification" in window&&Notification.permission==="default");
+  }
+  $("#badgeBtn").onclick=async()=>{try{const r=await Notification.requestPermission();toast(r==="granted"?"Fällige Anrufe stehen jetzt am App-Symbol":"Nicht erlaubt – geht später in den iPhone-Einstellungen")}catch(e){}renderTop()};
+
+  // Installations-Hinweis nur in Safari auf dem iPhone, solange nicht installiert
+  (function(){let off=false;try{off=localStorage.getItem("kb_install_off")==="1"}catch(e){}
+    const ios=/iPhone|iPad|iPod/.test(navigator.userAgent);
+    $("#install").hidden=off||standalone||!ios;
+    $("#installX").onclick=()=>{$("#install").hidden=true;try{localStorage.setItem("kb_install_off","1")}catch(e){}};})();
+
+  /* ---------- Wischen auf Karten (Handy) ---------- */
+  (function(){
+    let sw=null,x0=0,y0=0,dx=0,mode=null;
+    const TH=90;
+    document.addEventListener("touchstart",e=>{const w=e.target.closest(".swipe");if(!w||e.target.closest("button,a,input,select"))return;
+      sw=w;x0=e.touches[0].clientX;y0=e.touches[0].clientY;dx=0;mode=null},{passive:true});
+    document.addEventListener("touchmove",e=>{if(!sw)return;const t=e.touches[0];const mx=t.clientX-x0,my=t.clientY-y0;
+      if(!mode){if(Math.abs(mx)<8&&Math.abs(my)<8)return;mode=Math.abs(mx)>Math.abs(my)?"x":"y"}
+      if(mode!=="x"){sw=null;return}
+      e.preventDefault();dx=mx;sw.classList.add("moving");
+      const card=sw.querySelector(".tcard"),bg=sw.querySelector(".swipe__bg");
+      card.style.transform=`translateX(${dx}px)`;bg.classList.toggle("left",dx<0);bg.style.opacity=Math.min(1,Math.abs(dx)/TH)},{passive:false});
+    document.addEventListener("touchend",()=>{if(!sw)return;const w=sw;sw=null;w.classList.remove("moving");
+      const card=w.querySelector(".tcard"),bg=w.querySelector(".swipe__bg");
+      if(mode==="x"&&Math.abs(dx)>=TH){const s=sites.find(x=>x.id===w.dataset.sw);card.style.transform=`translateX(${dx>0?"110%":"-110%"})`;
+        if(navigator.vibrate)navigator.vibrate(12);setTimeout(()=>{if(s)outcome(s,dx>0?"erreicht":"nicht")},180)}
+      else{card.style.transform="";bg.style.opacity=0}});
+  })();
+
   function render(){renderTop();renderView();if(openId&&openId!=="__new"&&!$("#drawer").contains(document.activeElement))renderDrawer()}
 
   /* ---------- Speichern ---------- */
@@ -491,7 +616,7 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
     const cp=t.closest("[data-copy]");if(cp){const v=cp.dataset.copy;(navigator.clipboard?navigator.clipboard.writeText(v):Promise.reject()).then(()=>toast("Nummer kopiert: "+v),()=>toast(v));return}
     const qa=t.closest("[data-qa]");if(qa){const s=sites.find(x=>x.id===qa.dataset.id);if(s)outcome(s,qa.dataset.qa);return}
     const op=t.closest("[data-open]");if(op&&!t.closest("#drawer")){openDrawer(op.dataset.open);return}
-    const tb=t.closest("[data-tab]");if(tb){tab=tb.dataset.tab;try{localStorage.setItem("kb_tab",tab)}catch(e){}renderView();return}
+    const tb=t.closest("[data-tab]");if(tb){if(tb.classList.contains("navbtn")){if(typeof chatOpen!=="undefined"&&chatOpen)closeChat();setTimeout(()=>scrollTo({top:tb.dataset.tab==="heute"?0:$(".tabs").offsetTop-70,behavior:"smooth"}))}tab=tb.dataset.tab;try{localStorage.setItem("kb_tab",tab)}catch(e){}renderView();return}
     const dy=t.closest("[data-day]");if(dy){const k=dy.dataset.day;dayFilter=(!k||dayFilter===k)?null:k;tab="heute";render();return}
     const so=t.closest("th[data-sort]");if(so){const k=so.dataset.sort;if(sortKey===k)sortDir*=-1;else{sortKey=k;sortDir=1}renderView();return}
   });
@@ -644,7 +769,7 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
   function renderChat(){
     const lastC=chat.filter(m=>m.from==="claude").slice(-1)[0];
     if(chatOpen&&lastC&&lastC.at>seen){seen=lastC.at;try{localStorage.setItem("kb_chat_seen",seen)}catch(e){}}
-    $("#chatDot").hidden=!(lastC&&lastC.at>seen);
+    $("#chatDot").hidden=$("#navDot").hidden=!(lastC&&lastC.at>seen);
     if(!chatOpen)return;
     const st=STATE[sendState]||["off","Claude liest deine Nachrichten, sobald auf dem Mac eine Sitzung läuft."];
     $("#chatState").textContent=db?st[1]:"Chat nur über claude.ai erreichbar."; $("#chatState").dataset.on=db?st[0]:"off";
@@ -661,7 +786,7 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
   }
   function openChat(){chatOpen=true;chatBox.hidden=false;$("#chatFab").hidden=true;renderChat();chatList.scrollTop=chatList.scrollHeight;refreshSend();if(matchMedia("(pointer:fine)").matches)chatIn.focus()}
   function closeChat(){chatOpen=false;chatBox.hidden=true;$("#chatFab").hidden=false;renderChat()}
-  $("#chatFab").onclick=openChat; $("#chatX").onclick=closeChat;
+  $("#chatFab").onclick=openChat; $("#chatX").onclick=closeChat; $("#navChat").onclick=openChat;
   document.addEventListener("keydown",e=>{if(e.key==="Escape"&&chatOpen)closeChat()});
   document.addEventListener("visibilitychange",()=>{if(!document.hidden&&chatOpen)refreshSend()});
   chatIn.addEventListener("input",()=>{chatIn.style.height="auto";chatIn.style.height=Math.min(140,chatIn.scrollHeight)+"px"});
