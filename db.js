@@ -1,12 +1,12 @@
 // Datenbank-Anbindung des Kundenboards (Supabase).
 // Stellt dieselbe kleine Schnittstelle bereit wie das alte claude.ai-Board
 // (db.doc("sites/x").update(...), db.collection("chat").orderBy(...).onSnapshot(...)),
-// damit der Board-Code unverändert bleiben kann. Dazu die Anmeldung per E-Mail-Code.
+// damit der Board-Code unverändert bleiben kann. Dazu die Anmeldung per E-Mail + Passwort.
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/+esm";
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from "./config.js";
 
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false },
+  auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: "implicit" },
 });
 
 /* ---------- Dokumentenspeicher ---------- */
@@ -130,54 +130,72 @@ const db = { doc: docRef, collection: (c) => query(c) };
 
 /* ---------- Anmeldung ---------- */
 
-async function session() {
-  const { data } = await sb.auth.getSession();
-  return data.session;
+// Kommt man über den Link aus der „Passwort festlegen“-E-Mail, meldet Supabase PASSWORD_RECOVERY.
+let recovery = /type=recovery/.test(location.hash);
+sb.auth.onAuthStateChange((event) => { if (event === "PASSWORD_RECOVERY") recovery = true; });
+
+const $ = (id) => document.getElementById(id);
+const REDIRECT = location.origin + location.pathname;
+
+function showForm(mode) {
+  const f = $("loginForm");
+  f.dataset.mode = mode;
+  $("loginMsg").textContent = "";
+  $("loginPass").value = "";
+  $("loginPass").autocomplete = mode === "new" ? "new-password" : "current-password";
+  $("loginPass").placeholder = mode === "new" ? "Neues Passwort (mind. 8 Zeichen)" : "Passwort";
+  $("loginSubmit").textContent = mode === "new" ? "Passwort speichern" : "Anmelden";
+  $("loginIntro").textContent = mode === "new" ? "Leg dein Passwort fest. Danach bist du angemeldet." : "Melde dich mit deiner E-Mail und deinem Passwort an.";
+  $("loginEmail").hidden = mode === "new";
+  $("loginReset").hidden = mode === "new";
 }
 
 // Wartet, bis jemand angemeldet ist (zeigt sonst das Anmeldefenster), und gibt dann die Datenbank zurück.
 window.crestraDB = async function () {
-  if (await session()) return db;
-  const box = document.getElementById("login");
-  const form = document.getElementById("loginForm");
-  const email = document.getElementById("loginEmail");
-  const code = document.getElementById("loginCode");
-  const msg = document.getElementById("loginMsg");
+  const { data } = await sb.auth.getSession();
+  if (data.session && !recovery) return db;
+  const box = $("login"), form = $("loginForm"), msg = $("loginMsg"), email = $("loginEmail"), pass = $("loginPass");
   box.hidden = false;
   try { email.value = localStorage.getItem("kb_email") || ""; } catch (e) {}
+  showForm(data.session && recovery ? "new" : "login");
+
+  $("loginReset").onclick = async () => {
+    const mail = email.value.trim();
+    if (!mail) { msg.textContent = "Bitte zuerst die E-Mail eintragen."; email.focus(); return; }
+    const { error } = await sb.auth.resetPasswordForEmail(mail, { redirectTo: REDIRECT });
+    msg.textContent = error
+      ? (/rate|seconds|limit/i.test(error.message) ? "Bitte etwas warten und dann nochmal versuchen." : "Das hat nicht geklappt – bitte nochmal versuchen.")
+      : "E-Mail ist unterwegs. Tipp auf den Link darin, dann legst du dein Passwort fest.";
+  };
+
   return new Promise((resolve) => {
-    let step = "email";
+    const done = () => {
+      box.hidden = true;
+      if (location.hash) history.replaceState(null, "", location.pathname);
+      resolve(db);
+    };
     form.onsubmit = async (e) => {
       e.preventDefault();
-      const btn = form.querySelector("button");
+      const btn = $("loginSubmit");
       btn.disabled = true;
       msg.textContent = "";
-      if (step === "email") {
-        const { error } = await sb.auth.signInWithOtp({ email: email.value.trim(), options: { shouldCreateUser: false } });
+      if (form.dataset.mode === "new") {
+        if (pass.value.length < 8) { msg.textContent = "Bitte mindestens 8 Zeichen."; btn.disabled = false; return; }
+        const { error } = await sb.auth.updateUser({ password: pass.value });
         btn.disabled = false;
-        if (error) {
-          msg.textContent = /rate|seconds/i.test(error.message)
-            ? "Bitte kurz warten und dann nochmal versuchen."
-            : "Für diese E-Mail gibt es keinen Zugang.";
-          return;
-        }
-        try { localStorage.setItem("kb_email", email.value.trim()); } catch (e) {}
-        step = "code";
-        form.classList.add("step-code");
-        btn.textContent = "Anmelden";
-        msg.textContent = "Wir haben dir einen Code per E-Mail geschickt.";
-        code.focus();
+        if (error) { msg.textContent = "Das Passwort konnte nicht gespeichert werden – bitte nochmal."; return; }
+        recovery = false;
+        done();
       } else {
-        const { error } = await sb.auth.verifyOtp({ email: email.value.trim(), token: code.value.trim(), type: "email" });
+        const { error } = await sb.auth.signInWithPassword({ email: email.value.trim(), password: pass.value });
         btn.disabled = false;
-        if (error) {
-          msg.textContent = "Der Code stimmt nicht oder ist abgelaufen.";
-          return;
-        }
-        box.hidden = true;
-        resolve(db);
+        if (error) { msg.textContent = "E-Mail oder Passwort stimmt nicht."; return; }
+        try { localStorage.setItem("kb_email", email.value.trim()); } catch (e) {}
+        done();
       }
     };
+    // Recovery-Link: Sitzung kommt evtl. erst kurz nach dem Laden an
+    sb.auth.onAuthStateChange((event) => { if (event === "PASSWORD_RECOVERY") showForm("new"); });
   });
 };
 

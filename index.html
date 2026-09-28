@@ -253,8 +253,7 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
 .login__card .brand{margin:0 0 4px}
 .login__card p{margin:0;color:var(--ink-2);font-size:14px}
 .login__card input{border:1px solid var(--line);background:var(--surface-2);border-radius:12px;padding:12px 14px;font-size:16px;width:100%}
-.login__card .code{display:none;letter-spacing:.3em;font-family:var(--mono);text-align:center}
-.login__card .step-code .code{display:block}
+.linkbtn{background:none;border:0;padding:0;color:var(--accent);font-weight:600;cursor:pointer;justify-self:start;font-size:14px}
 .login__card form{display:grid;gap:10px}
 .login__msg{min-height:1.2em;font-size:13.5px;color:var(--ink-2)}
 .foot{margin-top:40px;text-align:center;font-size:12.5px;color:var(--ink-3)}
@@ -311,12 +310,13 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
 <div class="login" id="login" hidden>
   <div class="login__card">
     <div class="brand"><b>crestra</b><span>Kundenboard</span></div>
-    <p>Melde dich mit deiner E-Mail an. Du bekommst einen Code zum Eintippen.</p>
+    <p id="loginIntro">Melde dich mit deiner E-Mail und deinem Passwort an.</p>
     <form id="loginForm">
-      <input id="loginEmail" type="email" autocomplete="email" required placeholder="E-Mail" aria-label="E-Mail">
-      <input id="loginCode" class="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="Code" aria-label="Code aus der E-Mail">
-      <button class="btn btn--primary btn--lg" type="submit">Code schicken</button>
+      <input id="loginEmail" type="email" autocomplete="email" placeholder="E-Mail" aria-label="E-Mail">
+      <input id="loginPass" type="password" autocomplete="current-password" required placeholder="Passwort" aria-label="Passwort">
+      <button class="btn btn--primary btn--lg" type="submit" id="loginSubmit">Anmelden</button>
     </form>
+    <button type="button" class="linkbtn" id="loginReset">Passwort festlegen oder vergessen?</button>
     <div class="login__msg" id="loginMsg" role="status"></div>
   </div>
 </div>
