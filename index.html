@@ -253,6 +253,7 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
 .login__card .brand{margin:0 0 4px}
 .login__card p{margin:0;color:var(--ink-2);font-size:14px}
 .login__card input{border:1px solid var(--line);background:var(--surface-2);border-radius:12px;padding:12px 14px;font-size:16px;width:100%}
+.passrow{position:relative}.passrow input{padding-right:52px}.passrow button{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:0;font-size:20px;cursor:pointer;padding:6px}
 .linkbtn{background:none;border:0;padding:0;color:var(--accent);font-weight:600;cursor:pointer;justify-self:start;font-size:14px}
 .login__card form{display:grid;gap:10px}
 .login__msg{min-height:1.2em;font-size:13.5px;color:var(--ink-2)}
@@ -312,8 +313,8 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
     <div class="brand"><b>crestra</b><span>Kundenboard</span></div>
     <p id="loginIntro">Melde dich mit deiner E-Mail und deinem Passwort an.</p>
     <form id="loginForm">
-      <input id="loginEmail" type="email" autocomplete="email" placeholder="E-Mail" aria-label="E-Mail">
-      <input id="loginPass" type="password" autocomplete="current-password" required placeholder="Passwort" aria-label="Passwort">
+      <input id="loginEmail" type="email" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="E-Mail" aria-label="E-Mail">
+      <div class="passrow"><input id="loginPass" type="password" autocomplete="current-password" autocapitalize="off" autocorrect="off" spellcheck="false" required placeholder="Passwort" aria-label="Passwort"><button type="button" id="loginShow" aria-label="Passwort anzeigen">👁</button></div>
       <button class="btn btn--primary btn--lg" type="submit" id="loginSubmit">Anmelden</button>
     </form>
     <button type="button" class="linkbtn" id="loginReset">Passwort festlegen oder vergessen?</button>

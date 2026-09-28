@@ -159,6 +159,9 @@ window.crestraDB = async function () {
   email.value = LOGIN_EMAIL || "";
   showForm(data.session && recovery ? "new" : "login");
 
+  $("loginShow").onclick = () => { pass.type = pass.type === "password" ? "text" : "password"; };
+  email.addEventListener("input", () => { email.value = email.value.replace(/\s/g, "").toLowerCase(); });
+
   $("loginReset").onclick = async () => {
     const mail = email.value.trim();
     if (!mail) { msg.textContent = "Bitte zuerst die E-Mail eintragen."; email.focus(); return; }
@@ -187,9 +190,13 @@ window.crestraDB = async function () {
         recovery = false;
         done();
       } else {
-        const { error } = await sb.auth.signInWithPassword({ email: email.value.trim(), password: pass.value });
+        const { error } = await sb.auth.signInWithPassword({ email: email.value.trim().toLowerCase(), password: pass.value.trim() });
         btn.disabled = false;
-        if (error) { msg.textContent = "E-Mail oder Passwort stimmt nicht."; return; }
+        if (error) {
+          msg.textContent = (/invalid login/i.test(error.message) ? "E-Mail oder Passwort stimmt nicht." : "Anmeldung fehlgeschlagen.")
+            + " (Fehler: " + (error.status || "") + " " + error.message + ")";
+          return;
+        }
         try { localStorage.setItem("kb_email", email.value.trim()); } catch (e) {}
         done();
       }
