@@ -1,0 +1,5 @@
+_daten-export/
+_quelle-claude-board.html
+.DS_Store
+node_modules/
+*.tar.gz

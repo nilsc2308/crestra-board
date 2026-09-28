@@ -1,0 +1,187 @@
+// Datenbank-Anbindung des Kundenboards (Supabase).
+// Stellt dieselbe kleine Schnittstelle bereit wie das alte claude.ai-Board
+// (db.doc("sites/x").update(...), db.collection("chat").orderBy(...).onSnapshot(...)),
+// damit der Board-Code unverändert bleiben kann. Dazu die Anmeldung per E-Mail-Code.
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/+esm";
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from "./config.js";
+
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false },
+});
+
+/* ---------- Dokumentenspeicher ---------- */
+
+const cache = new Map(); // Sammlung -> Map(id -> data)
+const listeners = new Set(); // () => void, bei jeder Änderung aufgerufen
+const loading = new Map(); // Sammlung -> Promise (erstes Laden)
+let channel = null;
+
+const notify = () => listeners.forEach((fn) => fn());
+const split = (path) => {
+  const i = path.lastIndexOf("/");
+  return [path.slice(0, i), path.slice(i + 1)];
+};
+const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+
+function load(col) {
+  if (!loading.has(col)) {
+    loading.set(
+      col,
+      sb.from("docs").select("id,data").eq("collection", col).then(({ data, error }) => {
+        if (error) {
+          loading.delete(col);
+          throw error;
+        }
+        cache.set(col, new Map(data.map((r) => [r.id, r.data])));
+      })
+    );
+  }
+  return loading.get(col);
+}
+
+function live() {
+  if (channel) return;
+  channel = sb
+    .channel("docs")
+    .on("postgres_changes", { event: "*", schema: "public", table: "docs" }, (p) => {
+      const row = p.eventType === "DELETE" ? p.old : p.new;
+      if (!row || !cache.has(row.collection)) return;
+      if (p.eventType === "DELETE") cache.get(row.collection).delete(row.id);
+      else cache.get(row.collection).set(row.id, row.data);
+      notify();
+    })
+    .subscribe((status) => {
+      // nach einem Verbindungsabbruch alles frisch laden, damit nichts verpasst wird
+      if (status === "SUBSCRIBED" && cache.size) {
+        [...cache.keys()].forEach((c) => loading.delete(c));
+        Promise.all([...cache.keys()].map(load)).then(notify, () => {});
+      }
+    });
+}
+
+function watch(col, compute, next, error) {
+  let last;
+  const run = () => {
+    const out = compute(cache.get(col) || new Map());
+    const key = JSON.stringify(out.key);
+    if (key !== last) {
+      last = key;
+      next(out.snap);
+    }
+  };
+  load(col).then(() => {
+    listeners.add(run);
+    live();
+    run();
+  }, (e) => error && error(e));
+  return () => listeners.delete(run);
+}
+
+function docRef(path) {
+  const [col, id] = split(path);
+  const local = (fn) => {
+    if (!cache.has(col)) cache.set(col, new Map());
+    fn(cache.get(col));
+    notify();
+  };
+  return {
+    id,
+    async set(data) {
+      local((m) => m.set(id, data));
+      const { error } = await sb.from("docs").upsert({ collection: col, id, data }, { onConflict: "owner,collection,id" });
+      if (error) throw error;
+    },
+    async update(patch) {
+      local((m) => m.set(id, Object.assign({}, m.get(id), patch)));
+      const { error } = await sb.rpc("doc_merge", { p_collection: col, p_id: id, p_patch: patch });
+      if (error) throw error;
+    },
+    async delete() {
+      local((m) => m.delete(id));
+      const { error } = await sb.from("docs").delete().eq("collection", col).eq("id", id);
+      if (error) throw error;
+    },
+    onSnapshot(next, error) {
+      return watch(col, (m) => {
+        const data = m.get(id);
+        return { key: data ?? null, snap: { id, exists: data !== undefined, data: () => data } };
+      }, next, error);
+    },
+  };
+}
+
+function query(col, order = null, dir = "asc", lim = null) {
+  return {
+    orderBy: (field, d = "asc") => query(col, field, d, lim),
+    limit: (n) => query(col, order, dir, n),
+    doc: (id) => docRef(col + "/" + (id || newId())),
+    onSnapshot(next, error) {
+      return watch(col, (m) => {
+        let rows = [...m.entries()].map(([id, data]) => ({ id, data }));
+        rows.sort((a, b) => (order ? String(a.data[order] ?? "￿").localeCompare(String(b.data[order] ?? "￿")) : a.id.localeCompare(b.id)) * (dir === "desc" ? -1 : 1));
+        if (lim) rows = rows.slice(0, lim);
+        return { key: rows, snap: { docs: rows.map((r) => ({ id: r.id, data: () => r.data })) } };
+      }, next, error);
+    },
+  };
+}
+
+const db = { doc: docRef, collection: (c) => query(c) };
+
+/* ---------- Anmeldung ---------- */
+
+async function session() {
+  const { data } = await sb.auth.getSession();
+  return data.session;
+}
+
+// Wartet, bis jemand angemeldet ist (zeigt sonst das Anmeldefenster), und gibt dann die Datenbank zurück.
+window.crestraDB = async function () {
+  if (await session()) return db;
+  const box = document.getElementById("login");
+  const form = document.getElementById("loginForm");
+  const email = document.getElementById("loginEmail");
+  const code = document.getElementById("loginCode");
+  const msg = document.getElementById("loginMsg");
+  box.hidden = false;
+  try { email.value = localStorage.getItem("kb_email") || ""; } catch (e) {}
+  return new Promise((resolve) => {
+    let step = "email";
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector("button");
+      btn.disabled = true;
+      msg.textContent = "";
+      if (step === "email") {
+        const { error } = await sb.auth.signInWithOtp({ email: email.value.trim(), options: { shouldCreateUser: false } });
+        btn.disabled = false;
+        if (error) {
+          msg.textContent = /rate|seconds/i.test(error.message)
+            ? "Bitte kurz warten und dann nochmal versuchen."
+            : "Für diese E-Mail gibt es keinen Zugang.";
+          return;
+        }
+        try { localStorage.setItem("kb_email", email.value.trim()); } catch (e) {}
+        step = "code";
+        form.classList.add("step-code");
+        btn.textContent = "Anmelden";
+        msg.textContent = "Wir haben dir einen Code per E-Mail geschickt.";
+        code.focus();
+      } else {
+        const { error } = await sb.auth.verifyOtp({ email: email.value.trim(), token: code.value.trim(), type: "email" });
+        btn.disabled = false;
+        if (error) {
+          msg.textContent = "Der Code stimmt nicht oder ist abgelaufen.";
+          return;
+        }
+        box.hidden = true;
+        resolve(db);
+      }
+    };
+  });
+};
+
+window.crestraLogout = async () => {
+  await sb.auth.signOut();
+  location.reload();
+};

@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>crestra Kundenboard</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="theme-color" content="#eceef2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0f16" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="crestra">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --ground:#eceef2; --surface:#ffffff; --surface-2:#f5f6f8; --ink:#111725; --ink-2:#485063; --ink-3:#7b8496;
+  --line:#dde1e8; --line-2:#c7cdd8; --accent:#2446e8; --accent-ink:#ffffff; --accent-soft:#e5eaff;
+  --red:#d3342c; --red-soft:#fde7e5; --amber:#b06a00; --amber-soft:#fff0d4; --green:#12804a; --green-soft:#daf2e5;
+  --violet:#6a3ed0; --violet-soft:#eee7ff; --teal:#0b7784; --teal-soft:#daf1f3; --grey-soft:#e9ecf1;
+  --hero:#111725; --hero-ink:#ffffff; --hero-2:#aab4c8;
+  --shadow:0 1px 2px rgba(17,23,37,.06),0 10px 30px rgba(17,23,37,.08);
+  --display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --body:"Hanken Grotesk","Helvetica Neue",Arial,system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark;
+  --ground:#0c0f16; --surface:#151a24; --surface-2:#1b2130; --ink:#eef1f6; --ink-2:#b4bccb; --ink-3:#8791a4;
+  --line:#252d3d; --line-2:#344056; --accent:#7f95ff; --accent-ink:#0c0f16; --accent-soft:#1c2452;
+  --red:#ff7b72; --red-soft:#3b1715; --amber:#f2b453; --amber-soft:#3a2a0d; --green:#4fd08c; --green-soft:#0f3120;
+  --violet:#b79dff; --violet-soft:#2a1f4d; --teal:#5ccfdb; --teal-soft:#0f3035; --grey-soft:#222a38;
+  --hero:#1f2a55; --hero-ink:#ffffff; --hero-2:#b9c3e6;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0c0f16; --surface:#151a24; --surface-2:#1b2130; --ink:#eef1f6; --ink-2:#b4bccb; --ink-3:#8791a4;
+  --line:#252d3d; --line-2:#344056; --accent:#7f95ff; --accent-ink:#0c0f16; --accent-soft:#1c2452;
+  --red:#ff7b72; --red-soft:#3b1715; --amber:#f2b453; --amber-soft:#3a2a0d; --green:#4fd08c; --green-soft:#0f3120;
+  --violet:#b79dff; --violet-soft:#2a1f4d; --teal:#5ccfdb; --teal-soft:#0f3035; --grey-soft:#222a38;
+  --hero:#1f2a55; --hero-ink:#ffffff; --hero-2:#b9c3e6;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45;padding-inline:16px;padding-block:0 72px}
+.wrap{max-width:1240px;margin:0 auto}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+a{color:var(--accent)}
+.mono{font-family:var(--mono)}
+
+/* Kopf */
+.top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-block:20px 16px}
+.brand{display:flex;align-items:baseline;gap:10px;margin-right:auto}
+.brand b{font-family:var(--display);font-weight:800;font-size:28px;letter-spacing:-.035em;color:var(--accent)}
+.brand span{font-family:var(--display);font-weight:600;font-size:18px;color:var(--ink-2)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line-2);background:var(--surface);border-radius:10px;padding:9px 14px;font-weight:600;cursor:pointer;font-size:14px;white-space:nowrap}
+.btn:hover{border-color:var(--ink-3)}
+.btn--primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn--primary:hover{filter:brightness(1.08);border-color:var(--accent)}
+.btn--dark{background:var(--ink);border-color:var(--ink);color:var(--surface)}
+.btn--ghost{background:transparent;border-color:transparent}
+.btn--danger{color:var(--red)}
+.btn--sm{padding:6px 10px;font-size:13px;border-radius:8px}
+.btn--lg{padding:13px 18px;font-size:15px;border-radius:12px}
+
+/* Übersicht */
+.over{display:grid;grid-template-columns:1.35fr 1fr;gap:12px}
+@media (max-width:900px){.over{grid-template-columns:1fr}}
+.money{background:var(--hero);color:var(--hero-ink);border-radius:18px;padding:18px 20px;display:grid;gap:10px}
+.money small{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--hero-2);font-weight:700}
+.money .big{font-family:var(--display);font-weight:800;font-size:clamp(40px,6vw,56px);letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.money .big span{font-size:.4em;font-weight:600;color:var(--hero-2);letter-spacing:0}
+.money .sub{display:flex;gap:18px;flex-wrap:wrap;font-size:13.5px;color:var(--hero-2)}
+.money .sub b{color:var(--hero-ink);font-variant-numeric:tabular-nums}
+.goal{display:grid;gap:6px}
+.goal__bar{height:8px;border-radius:99px;background:rgba(255,255,255,.14);overflow:hidden}
+.goal__bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#7f95ff,#4fd08c);transition:width .6s}
+.goal__txt{display:flex;justify-content:space-between;font-size:12.5px;color:var(--hero-2)}
+.goal__txt button{background:none;border:0;color:var(--hero-2);text-decoration:underline;cursor:pointer;font-size:12.5px;padding:0}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;align-content:space-between;gap:4px}
+.stat small{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.stat strong{font-family:var(--display);font-weight:700;font-size:32px;letter-spacing:-.03em;line-height:1.05;font-variant-numeric:tabular-nums}
+.stat em{font-style:normal;font-size:12.5px;color:var(--ink-2)}
+.stat--warn strong{color:var(--red)}
+
+/* Woche */
+.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-top:12px}
+.day{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 10px;text-align:left;cursor:pointer}
+.day small{display:block;font-size:11.5px;color:var(--ink-3);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.day b{font-family:var(--display);font-size:20px;font-variant-numeric:tabular-nums}
+.day i{font-style:normal;font-size:12px;color:var(--ink-3);margin-left:4px}
+.day--today{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.day--has b{color:var(--accent)}
+.day[aria-pressed="true"]{background:var(--accent-soft)}
+@media (max-width:560px){.week{grid-template-columns:repeat(7,minmax(58px,1fr));overflow-x:auto;padding-bottom:4px}.day{padding:6px 8px}.day small{letter-spacing:0}.day i{display:none}.day b{font-size:17px}}
+
+/* Reiter */
+.tabs{display:flex;gap:4px;margin-top:22px;border-bottom:1px solid var(--line);overflow-x:auto}
+.tab{background:none;border:0;padding:10px 14px;font-weight:700;color:var(--ink-3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;font-size:15px}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tab b{font-family:var(--mono);font-size:12px;font-weight:600;margin-left:6px;color:var(--ink-3)}
+.tools{display:flex;gap:10px;align-items:center;margin-left:auto;padding-bottom:6px}
+.search{display:flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:0 10px;min-width:220px}
+.search input{border:0;background:transparent;padding:8px 0;width:100%;outline:none;font-size:14px}
+@media (max-width:760px){.tabs{flex-wrap:wrap}.tools{width:100%;margin-left:0}.search{flex:1;min-width:0}}
+.view{margin-top:16px}
+
+/* Heute */
+.today-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:900px){.today-grid{grid-template-columns:1fr}}
+.col h3{font-family:var(--display);font-size:17px;margin:0 0 10px;display:flex;align-items:center;gap:8px}
+.col h3 span{font-family:var(--mono);font-size:12px;color:var(--ink-3);font-weight:600}
+.stack{display:grid;gap:8px}
+.tcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:6px 12px;align-items:center;border-left:5px solid var(--stage)}
+.tcard .n{font-family:var(--display);font-weight:700;font-size:16.5px;cursor:pointer}
+.tcard .n:hover{color:var(--accent)}
+.tcard .s{font-size:13px;color:var(--ink-2)}
+.tcard .acts{grid-column:1/-1;display:flex;gap:6px;flex-wrap:wrap}
+.empty{background:var(--surface);border:1px dashed var(--line-2);border-radius:14px;padding:18px;color:var(--ink-2);font-size:14px}
+
+/* Pipeline */
+.pipe{display:grid;grid-template-columns:repeat(6,minmax(210px,1fr));gap:10px;overflow-x:auto;padding-bottom:8px}
+.lane{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:8px;min-height:180px}
+.lane.drop{outline:2px dashed var(--accent);outline-offset:-4px}
+.lane__hd{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13.5px;padding:2px 4px 4px}
+.lane__hd i{width:10px;height:10px;border-radius:50%;background:var(--stage)}
+.lane__hd span{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--ink-3)}
+.lane__sum{font-size:12px;color:var(--ink-3);padding:0 4px}
+.kcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;cursor:grab;display:grid;gap:4px;border-top:3px solid var(--stage)}
+.kcard:active{cursor:grabbing}
+.kcard.dragging{opacity:.4}
+.kcard b{font-family:var(--display);font-size:15px;font-weight:700;line-height:1.2}
+.kcard .s{font-size:12.5px;color:var(--ink-2)}
+.kcard .f{display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:12px}
+
+/* Liste */
+.tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:14px}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:820px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);font-weight:700;background:var(--surface-2);cursor:pointer;user-select:none;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+tbody tr:hover{background:var(--surface-2)}
+td .n{font-weight:700;cursor:pointer}
+td .n:hover{color:var(--accent)}
+td.num{font-variant-numeric:tabular-nums;font-family:var(--mono);font-size:13px}
+td input[type=date]{border:1px solid var(--line);background:var(--surface-2);border-radius:7px;padding:4px 6px;font-family:var(--mono);font-size:12.5px}
+td input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent)}
+
+/* Bausteine */
+.pill{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:2px 9px;font-size:12px;font-weight:700;white-space:nowrap;background:var(--stage-soft);color:var(--stage)}
+.phone{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:13px}
+.copy{border:1px solid var(--line);background:var(--surface-2);border-radius:6px;font-size:11px;padding:2px 6px;cursor:pointer;color:var(--ink-2);font-family:var(--body);font-weight:700}
+.copy:hover{border-color:var(--ink-3)}
+.rel{font-size:12px;font-weight:700;white-space:nowrap}
+.rel--over{color:var(--red)}.rel--today{color:var(--amber)}.rel--soon{color:var(--ink-3)}
+.skel{height:84px;border-radius:14px;background:linear-gradient(90deg,var(--surface) 0%,var(--surface-2) 50%,var(--surface) 100%);background-size:200% 100%;animation:sk 1.2s linear infinite;border:1px solid var(--line)}
+@keyframes sk{to{background-position:-200% 0}}
+.notice{background:var(--surface);border:1px solid var(--line-2);border-radius:14px;padding:16px;color:var(--ink-2);margin-top:14px}
+
+/* Detail */
+dialog{border:0;padding:0;background:transparent;max-width:none;max-height:none;width:100%;height:100%;margin:0}
+dialog::backdrop{background:rgba(8,12,20,.5)}
+.drawer{position:absolute;right:0;top:0;bottom:0;width:min(580px,100%);background:var(--surface);color:var(--ink);box-shadow:var(--shadow);display:flex;flex-direction:column}
+.drawer__hd{display:flex;align-items:flex-start;gap:10px;padding:18px 20px;border-bottom:1px solid var(--line)}
+.drawer__hd h2{font-family:var(--display);font-size:24px;font-weight:800;letter-spacing:-.02em;margin:0;line-height:1.15;text-wrap:balance}
+.drawer__hd p{margin:4px 0 0;color:var(--ink-2);font-size:13.5px}
+.drawer__bd{overflow:auto;padding:18px 20px 28px;display:grid;gap:20px}
+.sec h3{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin:0 0 8px;font-weight:700}
+.quick{display:flex;flex-wrap:wrap;gap:6px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:520px){.grid2{grid-template-columns:1fr}}
+.field{display:grid;gap:4px}
+.field label{font-size:12.5px;color:var(--ink-2);font-weight:600}
+.field input,.field select,.field textarea{border:1px solid var(--line);background:var(--surface-2);border-radius:9px;padding:8px 10px;font-size:14px;width:100%}
+.field textarea{min-height:84px;resize:vertical}
+.log{list-style:none;margin:0;padding:0;border-left:2px solid var(--line);margin-left:6px}
+.log li{position:relative;padding:3px 0 10px 16px}
+.log li::before{content:"";position:absolute;left:-6px;top:8px;width:10px;height:10px;border-radius:50%;background:var(--surface);border:2px solid var(--accent)}
+.log time{font-family:var(--mono);font-size:12px;color:var(--ink-3);display:block}
+.addlog{display:flex;gap:8px;margin-top:8px}
+.addlog input{flex:1;border:1px solid var(--line);background:var(--surface-2);border-radius:9px;padding:8px 10px}
+.linkrow{display:flex;gap:8px;flex-wrap:wrap}
+
+/* Anruf-Modus */
+.dial{position:absolute;inset:0;margin:auto;width:min(640px,calc(100% - 24px));height:fit-content;max-height:calc(100% - 24px);overflow:auto;background:var(--surface);color:var(--ink);border-radius:22px;box-shadow:var(--shadow);padding:22px}
+.dial__top{display:flex;align-items:center;gap:10px}
+.dial__top small{font-family:var(--mono);color:var(--ink-3);font-size:12.5px}
+.dial__prog{flex:1;height:6px;border-radius:99px;background:var(--grey-soft);overflow:hidden}
+.dial__prog i{display:block;height:100%;background:var(--accent);transition:width .3s}
+.dial h2{font-family:var(--display);font-size:clamp(28px,5vw,38px);font-weight:800;letter-spacing:-.03em;margin:16px 0 2px;line-height:1.05}
+.dial .who{color:var(--ink-2);font-size:15px}
+.dial .bignum{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:16px 0 6px}
+.dial .bignum span{font-family:var(--mono);font-size:clamp(24px,4.5vw,32px);font-weight:600;letter-spacing:-.01em}
+.dial .ctx{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px;display:grid;gap:6px;margin-top:10px}
+.dial .ctx b{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3)}
+.dial .outs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
+@media (max-width:480px){.dial .outs{grid-template-columns:1fr}}
+.dial .note{width:100%;margin-top:12px;border:1px solid var(--line);background:var(--surface-2);border-radius:10px;padding:9px 11px;font-size:14px}
+.dial .done{text-align:center;padding:26px 6px}
+.dial .done b{display:block;font-family:var(--display);font-size:30px;margin-bottom:6px}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--surface);padding:9px 14px;border-radius:10px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s;z-index:10}
+.toast.on{opacity:1}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:20}
+.phone a{color:inherit;text-decoration:none}
+.phone a:hover{color:var(--accent)}
+
+/* Handy: Liste als Karten */
+@media (max-width:640px){
+  .tablewrap{background:transparent;border:0;overflow:visible}
+  table{min-width:0}
+  thead{display:none}
+  tbody{display:grid;gap:8px}
+  tbody tr{display:grid;grid-template-columns:1fr auto;gap:6px 10px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+  tbody tr:hover{background:var(--surface)}
+  td{padding:0;border:0}
+  td:nth-child(1){grid-column:1/-1}
+  td:nth-child(2){grid-column:1/-1;color:var(--ink-2);font-size:13px}
+  td:nth-child(3){grid-column:1/-1}
+  td:nth-child(5)::before{content:"Angerufen ";font-size:12px;color:var(--ink-3);vertical-align:middle}
+  td:nth-child(6){grid-column:1/-1}
+  td:nth-child(7),td:nth-child(8){font-size:13px}
+  .top .btn{flex:1}
+}
+
+/* Chat mit Claude */
+.fab{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:15;display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:13px 18px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:15px;box-shadow:var(--shadow);cursor:pointer}
+.fab i{width:10px;height:10px;border-radius:50%;background:var(--red);box-shadow:0 0 0 2px var(--accent)}
+.chat{position:fixed;right:16px;bottom:16px;z-index:16;width:min(400px,calc(100vw - 32px));height:min(620px,calc(100dvh - 32px));background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden}
+.chat__hd{display:flex;align-items:flex-start;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.chat__hd b{font-family:var(--display);font-size:18px;display:block}
+.chat__hd small{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink-2);margin-top:2px}
+.chat__hd small::before{content:"";width:8px;height:8px;border-radius:50%;flex:none;background:var(--ink-3)}
+.chat__hd small[data-on="on"]::before{background:var(--green)}
+.chat__list{flex:1;overflow:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px;background:var(--surface-2)}
+.msg{max-width:85%;padding:9px 12px;border-radius:14px;font-size:14.5px;white-space:pre-wrap;overflow-wrap:anywhere}
+.msg time{display:block;font-family:var(--mono);font-size:11px;margin-top:4px;opacity:.7}
+.msg--n{align-self:flex-end;background:var(--accent);color:var(--accent-ink);border-bottom-right-radius:4px}
+.msg--c{align-self:flex-start;background:var(--surface);border:1px solid var(--line);border-bottom-left-radius:4px}
+.msg--c::before{content:"Claude";display:block;font-size:11.5px;font-weight:700;color:var(--accent);margin-bottom:2px}
+/* Anmeldung */
+.login{position:fixed;inset:0;z-index:30;background:var(--ground);display:grid;place-items:center;padding:24px}
+.login__card{width:min(380px,100%);background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:26px 22px;display:grid;gap:14px}
+.login__card .brand{margin:0 0 4px}
+.login__card p{margin:0;color:var(--ink-2);font-size:14px}
+.login__card input{border:1px solid var(--line);background:var(--surface-2);border-radius:12px;padding:12px 14px;font-size:16px;width:100%}
+.login__card .code{display:none;letter-spacing:.3em;font-family:var(--mono);text-align:center}
+.login__card .step-code .code{display:block}
+.login__card form{display:grid;gap:10px}
+.login__msg{min-height:1.2em;font-size:13.5px;color:var(--ink-2)}
+.foot{margin-top:40px;text-align:center;font-size:12.5px;color:var(--ink-3)}
+.foot button{background:none;border:0;color:var(--ink-3);text-decoration:underline;cursor:pointer;font-size:12.5px}
+.chat__empty{margin:auto;text-align:center;color:var(--ink-2);font-size:14px;max-width:280px}
+.chat__form{display:flex;gap:8px;align-items:flex-end;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);background:var(--surface)}
+.chat__form textarea{flex:1;resize:none;border:1px solid var(--line);background:var(--surface-2);border-radius:12px;padding:10px 12px;font-size:16px;max-height:140px;min-height:44px}
+.chat__form .btn{min-height:44px}
+.chat[hidden],.fab[hidden],.fab i[hidden]{display:none}
+@media (max-width:640px){.chat{inset:0;width:auto;height:auto;border-radius:0;border:0}}
+@media (prefers-reduced-motion:reduce){.skel{animation:none}.goal__bar i,.dial__prog i{transition:none}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><b>crestra</b><span>Kundenboard</span></div>
+    <button class="btn btn--dark" id="dialBtn" type="button">☎ Anruf-Modus starten</button>
+    <button class="btn" id="addBtn" type="button">+ Website</button>
+  </header>
+
+  <section class="over" aria-label="Überblick">
+    <div class="money">
+      <small>Monatlicher Umsatz</small>
+      <div class="big" id="mrr">–<span> / Monat</span></div>
+      <div class="sub"><span>Kunden <b id="won">–</b></span><span>Einmalzahlungen <b id="once">–</b></span><span>Jahreswert <b id="year">–</b></span></div>
+      <div class="goal"><div class="goal__bar"><i id="goalBar" style="width:0"></i></div>
+        <div class="goal__txt"><span id="goalTxt">Ziel</span><button type="button" id="goalEdit">Ziel ändern</button></div></div>
+    </div>
+    <div class="stats">
+      <div class="stat" id="stDue"><small>Heute dran</small><strong id="sDue">–</strong><em id="sDueSub">Follow-ups</em></div>
+      <div class="stat"><small>Noch anrufen</small><strong id="sOpen">–</strong><em>nie angerufen</em></div>
+      <div class="stat"><small>Kontakte</small><strong id="sWeek">–</strong><em>letzte 7 Tage</em></div>
+      <div class="stat"><small>Websites</small><strong id="sAll">–</strong><em id="sAllSub">im Board</em></div>
+    </div>
+  </section>
+
+  <div class="week" id="week" role="group" aria-label="Follow-ups der nächsten 7 Tage"></div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" data-tab="heute" aria-selected="true">Heute</button>
+    <button class="tab" role="tab" data-tab="pipeline" aria-selected="false">Pipeline</button>
+    <button class="tab" role="tab" data-tab="liste" aria-selected="false">Alle<b id="tabAll"></b></button>
+    <div class="tools"><label class="search"><span aria-hidden="true">⌕</span><input id="q" type="search" placeholder="Suchen  ( / )" aria-label="Suchen"></label></div>
+  </div>
+
+  <div id="notice"></div>
+  <main class="view" id="view"><div class="skel"></div></main>
+</div>
+
+<footer class="foot">crestra Kundenboard · <button type="button" id="logout">Abmelden</button></footer>
+
+<div class="login" id="login" hidden>
+  <div class="login__card">
+    <div class="brand"><b>crestra</b><span>Kundenboard</span></div>
+    <p>Melde dich mit deiner E-Mail an. Du bekommst einen Code zum Eintippen.</p>
+    <form id="loginForm">
+      <input id="loginEmail" type="email" autocomplete="email" required placeholder="E-Mail" aria-label="E-Mail">
+      <input id="loginCode" class="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="Code" aria-label="Code aus der E-Mail">
+      <button class="btn btn--primary btn--lg" type="submit">Code schicken</button>
+    </form>
+    <div class="login__msg" id="loginMsg" role="status"></div>
+  </div>
+</div>
+
+<dialog id="dlg" aria-labelledby="dTitle"><div class="drawer" id="drawer"></div></dialog>
+<dialog id="dialDlg" aria-label="Anruf-Modus"><div class="dial" id="dial"></div></dialog>
+<canvas id="fx"></canvas>
+<div class="toast" id="toast" role="status"></div>
+<button class="fab" id="chatFab" type="button" aria-label="Chat mit Claude öffnen">💬 Claude<i id="chatDot" hidden></i></button>
+<section class="chat" id="chat" hidden aria-label="Chat mit Claude">
+  <header class="chat__hd"><div style="flex:1"><b>Chat mit Claude</b><small id="chatState">Verbinde …</small></div><button class="btn btn--ghost btn--sm" type="button" id="chatX" aria-label="Chat schließen">✕</button></header>
+  <div class="chat__list" id="chatList" aria-live="polite"></div>
+  <form class="chat__form" id="chatForm"><textarea id="chatIn" rows="1" maxlength="3500" placeholder="Schreib Claude etwas …" aria-label="Nachricht an Claude"></textarea><button class="btn btn--primary" type="submit">Senden</button></form>
+</section>
+
+<script>
+(function(){
+  const STAGES=[
+    {id:"neu",label:"Nicht angerufen",c:"--ink-3",s:"--grey-soft"},
+    {id:"angerufen",label:"Angerufen",c:"--accent",s:"--accent-soft"},
+    {id:"termin",label:"Termin",c:"--teal",s:"--teal-soft"},
+    {id:"entwurf",label:"Entwurf gezeigt",c:"--violet",s:"--violet-soft"},
+    {id:"gewonnen",label:"Gewonnen",c:"--green",s:"--green-soft"},
+    {id:"kein",label:"Kein Interesse",c:"--red",s:"--red-soft"}
+  ];
+  const ONLINE={live:"Live",online:"Online-Entwurf",privat:"Privat auf GitHub",lokal:"Nur lokal"};
+  const DEF_ONCE=250, DEF_MONTH=59;
+  const $=s=>document.querySelector(s);
+  const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const pad=n=>String(n).padStart(2,"0");
+  const iso=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+  const TODAY=iso(new Date());
+  const addDays=n=>{const d=new Date();d.setDate(d.getDate()+n);return iso(d)};
+  const deDate=s=>{if(!s)return"";const p=s.split("-");return p[2]+"."+p[1]+"."};
+  const dayDiff=(a,b)=>Math.round((new Date(b+"T12:00")-new Date(a+"T12:00"))/864e5);
+  const stageOf=id=>STAGES.find(s=>s.id===id)||STAGES[0];
+  const eur=n=>Math.round(n).toLocaleString("de-DE")+" €";
+  const num=v=>v===0||v==="0"?0:(v==null||v===""?null:Number(v));
+  const monthOf=s=>num(s.preisMonat)??DEF_MONTH;
+  const onceOf=s=>num(s.preisEinmal)??DEF_ONCE;
+  const active=s=>s.stage!=="gewonnen"&&s.stage!=="kein";
+  const isDue=s=>active(s)&&s.followUp&&s.followUp<=TODAY;
+
+  let db=null, sites=[], goal=1000, goalVer=0, loaded=false, tab="heute", dayFilter=null, openId=null;
+  let sortKey="urgent", sortDir=1;
+  try{tab=localStorage.getItem("kb_tab")||"heute"}catch(e){}
+
+  function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("on"),1900)}
+  function rel(s){
+    if(!s.followUp||!active(s))return"";
+    const d=dayDiff(TODAY,s.followUp);
+    if(d<0)return`<span class="rel rel--over">${-d===1?"seit gestern":"seit "+(-d)+" Tagen"} fällig</span>`;
+    if(d===0)return`<span class="rel rel--today">heute</span>`;
+    if(d===1)return`<span class="rel rel--soon">morgen</span>`;
+    return`<span class="rel rel--soon">${deDate(s.followUp)}</span>`;
+  }
+  const stageVars=s=>{const st=stageOf(s.stage);return`--stage:var(${st.c});--stage-soft:var(${st.s})`};
+  const pill=s=>`<span class="pill" style="${stageVars(s)}">${esc(stageOf(s.stage).label)}</span>`;
+  const telHref=t=>"tel:"+String(t).replace(/[^\d+]/g,"");
+  const phone=s=>s.telefon?`<span class="phone"><a href="${esc(telHref(s.telefon))}">${esc(s.telefon)}</a><button type="button" class="copy" data-copy="${esc(s.telefon)}">Kopieren</button></span>`:`<span class="phone" style="color:var(--ink-3)">keine Nummer</span>`;
+  const matches=s=>{const q=$("#q").value.trim().toLowerCase();return!q||[s.name,s.ort,s.inhaber,s.telefon,s.branche,s.email,s.notes].join(" ").toLowerCase().includes(q)};
+  function urgency(s){if(isDue(s))return 0;if(s.stage==="neu")return 1;if(active(s))return 2;if(s.stage==="gewonnen")return 3;return 4}
+  const byUrgency=(a,b)=>urgency(a)-urgency(b)||(a.followUp||"9").localeCompare(b.followUp||"9")||a.name.localeCompare(b.name,"de");
+
+  /* ---------- Übersicht ---------- */
+  function renderTop(){
+    const won=sites.filter(s=>s.stage==="gewonnen");
+    const mrr=won.reduce((a,s)=>a+monthOf(s),0), once=won.reduce((a,s)=>a+onceOf(s),0);
+    $("#mrr").innerHTML=eur(mrr)+'<span> / Monat</span>';
+    $("#won").textContent=won.length; $("#once").textContent=eur(once); $("#year").textContent=eur(once+12*mrr);
+    const pct=goal>0?Math.min(100,mrr/goal*100):0;
+    $("#goalBar").style.width=pct.toFixed(1)+"%";
+    $("#goalTxt").textContent=`Ziel ${eur(goal)} / Monat · ${pct<100?"noch "+eur(goal-mrr)+" (≈ "+Math.ceil((goal-mrr)/DEF_MONTH)+" Kunden)":"erreicht!"}`;
+    const due=sites.filter(isDue), over=due.filter(s=>s.followUp<TODAY).length;
+    $("#sDue").textContent=due.length; $("#sDueSub").textContent=over?over+" überfällig":"Follow-ups";
+    $("#stDue").classList.toggle("stat--warn",over>0);
+    $("#sOpen").textContent=sites.filter(s=>s.stage==="neu").length;
+    const since=addDays(-6); let c=0; sites.forEach(s=>(s.log||[]).forEach(l=>{if(l.d>=since&&/anruf|angerufen|erreicht|termin|entwurf|gewonnen|interesse|gesprochen|rückruf|nachfass/i.test(l.t))c++}));
+    $("#sWeek").textContent=c;
+    $("#sAll").textContent=sites.length; $("#sAllSub").textContent=sites.filter(s=>s.online==="live"||s.online==="online").length+" online";
+    $("#tabAll").textContent=sites.length;
+    // Woche
+    const wd=["So","Mo","Di","Mi","Do","Fr","Sa"]; let h="";
+    for(let i=0;i<7;i++){const d=new Date();d.setDate(d.getDate()+i);const k=iso(d);
+      const n=sites.filter(s=>active(s)&&s.followUp&&(i===0?s.followUp<=k:s.followUp===k)).length;
+      h+=`<button type="button" class="day${i===0?" day--today":""}${n?" day--has":""}" data-day="${k}" aria-pressed="${dayFilter===k}"><small>${i===0?"Heute":wd[d.getDay()]+" "+d.getDate()+"."}</small><b>${n}</b><i>${n===1?"Anruf":"Anrufe"}</i></button>`}
+    $("#week").innerHTML=h;
+  }
+
+  /* ---------- Ansichten ---------- */
+  function renderView(){
+    document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",t.dataset.tab===tab));
+    const v=$("#view"); if(!loaded)return;
+    if(!sites.length){v.innerHTML=`<div class="empty">Noch keine Websites. Mit „+ Website“ eintragen.</div>`;return}
+    if(tab==="heute")v.innerHTML=viewToday();
+    else if(tab==="pipeline"){v.innerHTML=viewPipe();bindDnD()}
+    else v.innerHTML=viewList();
+  }
+  function tcard(s,acts){
+    return`<div class="tcard" style="${stageVars(s)}"><div><div class="n" data-open="${esc(s.id)}">${esc(s.name)}</div>
+      <div class="s">${esc(s.next||s.branche||"")}${s.ort?" · "+esc(s.ort):""}</div></div>
+      <div style="text-align:right">${rel(s)||pill(s)}</div>
+      <div class="acts">${phone(s)}${acts}</div></div>`;
+  }
+  const quickBtns=s=>`<button class="btn btn--sm" data-qa="nicht" data-id="${esc(s.id)}">Nicht erreicht</button><button class="btn btn--sm" data-qa="erreicht" data-id="${esc(s.id)}">Erreicht</button>`;
+  function viewToday(){
+    let due=sites.filter(isDue).filter(matches);
+    if(dayFilter&&dayFilter!==TODAY)due=sites.filter(s=>active(s)&&s.followUp===dayFilter).filter(matches);
+    due.sort((a,b)=>a.followUp.localeCompare(b.followUp));
+    const fresh=sites.filter(s=>s.stage==="neu"&&!isDue(s)).filter(matches).sort((a,b)=>a.name.localeCompare(b.name,"de"));
+    const title=dayFilter&&dayFilter!==TODAY?"Follow-ups am "+deDate(dayFilter):"Heute nachfassen";
+    return`<div class="today-grid">
+      <div class="col"><h3>${title}<span>${due.length}</span>${dayFilter?`<button class="btn btn--sm btn--ghost" data-day="">alle</button>`:""}</h3><div class="stack">
+        ${due.length?due.map(s=>tcard(s,quickBtns(s))).join(""):`<div class="empty">Nichts fällig${dayFilter?" an diesem Tag":""}. ${fresh.length?"Perfekt für Erstanrufe rechts.":""}</div>`}</div></div>
+      <div class="col"><h3>Erstanrufe<span>${fresh.length}</span></h3><div class="stack">
+        ${fresh.length?fresh.slice(0,8).map(s=>tcard(s,quickBtns(s))).join("")+(fresh.length>8?`<div class="empty">+ ${fresh.length-8} weitere im Reiter „Alle“ oder im Anruf-Modus.</div>`:""):`<div class="empty">Alle Betriebe wurden schon angerufen.</div>`}</div></div>
+    </div>`;
+  }
+  function viewPipe(){
+    return`<div class="pipe">${STAGES.map(st=>{
+      const items=sites.filter(s=>s.stage===st.id).filter(matches).sort(byUrgency);
+      const val=st.id==="gewonnen"?items.reduce((a,s)=>a+monthOf(s),0):0;
+      return`<section class="lane" data-lane="${st.id}" style="--stage:var(${st.c})"><div class="lane__hd"><i></i>${st.label}<span>${items.length}</span></div>
+        ${st.id==="gewonnen"&&items.length?`<div class="lane__sum">${eur(val)} / Monat</div>`:""}
+        ${items.map(s=>`<article class="kcard" draggable="true" data-card="${esc(s.id)}" style="${stageVars(s)}">
+          <b data-open="${esc(s.id)}">${esc(s.name)}</b><span class="s">${esc(s.ort||"")}${s.inhaber?" · "+esc(s.inhaber):""}</span>
+          <div class="f"><span class="mono" style="color:var(--ink-2)">${esc(s.telefon||"")}</span>${rel(s)}</div></article>`).join("")}
+      </section>`}).join("")}</div>
+      <p style="font-size:13px;color:var(--ink-3);margin-top:8px">Karten mit der Maus in eine andere Spalte ziehen, um den Stand zu ändern.</p>`;
+  }
+  function viewList(){
+    let rows=sites.filter(matches);
+    const key={urgent:null,name:s=>s.name,ort:s=>s.ort||"",stage:s=>STAGES.findIndex(x=>x.id===s.stage),follow:s=>s.followUp||"9",preis:s=>monthOf(s)}[sortKey];
+    rows.sort(key?(a,b)=>{const x=key(a),y=key(b);return(typeof x==="number"?x-y:String(x).localeCompare(String(y),"de"))*sortDir}:byUrgency);
+    const th=(k,l)=>`<th data-sort="${k}">${l}${sortKey===k?(sortDir>0?" ↑":" ↓"):""}</th>`;
+    return`<div class="tablewrap"><table><thead><tr>${th("name","Firma")}${th("ort","Ort")}<th>Telefon</th>${th("stage","Stand")}<th>Angerufen</th>${th("follow","Follow-up")}${th("preis","Preis")}<th>Seite</th></tr></thead><tbody>
+      ${rows.map(s=>`<tr><td><span class="n" data-open="${esc(s.id)}">${esc(s.name)}</span><div style="font-size:12.5px;color:var(--ink-3)">${esc(s.inhaber||s.branche||"")}</div></td>
+        <td>${esc(s.ort||"")}</td><td>${phone(s)}</td>
+        <td><select data-stage="${esc(s.id)}" aria-label="Stand" class="pill" style="${stageVars(s)};border:0;padding:4px 8px">${STAGES.map(x=>`<option value="${x.id}" ${x.id===s.stage?"selected":""}>${x.label}</option>`).join("")}</select></td>
+        <td><input type="checkbox" data-called="${esc(s.id)}" ${s.called?"checked":""} aria-label="Angerufen"></td>
+        <td><input type="date" data-follow="${esc(s.id)}" value="${esc(s.followUp||"")}" aria-label="Follow-up"> ${rel(s)}</td>
+        <td class="num">${onceOf(s)} € + ${monthOf(s)} €/M</td>
+        <td>${s.neu?`<a href="${esc(s.neu)}" target="_blank" rel="noopener">öffnen ↗</a>`:`<span style="color:var(--ink-3)">${esc(ONLINE[s.online]||"")}</span>`}</td></tr>`).join("")}
+    </tbody></table></div>`;
+  }
+  function render(){renderTop();renderView();if(openId&&openId!=="__new"&&!$("#drawer").contains(document.activeElement))renderDrawer()}
+
+  /* ---------- Speichern ---------- */
+  async function save(id,patch,msg){
+    const s=sites.find(x=>x.id===id); if(s)Object.assign(s,patch); render();
+    if(!db){toast("Speichern gerade nicht möglich");return}
+    try{await db.doc("sites/"+id).update(patch);if(msg)toast(msg)}
+    catch(e){toast("Nicht gespeichert – bitte nochmal")}
+  }
+  const logP=(s,t,extra)=>Object.assign({log:(s.log||[]).concat([{d:TODAY,t}])},extra||{});
+  const OUT={
+    nicht:["Nicht erreicht",s=>({called:true,followUp:addDays(2),next:"Nochmal anrufen"})],
+    erreicht:["Erreicht, Gespräch geführt",s=>({called:true,stage:s.stage==="neu"?"angerufen":s.stage,followUp:addDays(3),next:"Nachfassen"})],
+    morgen:["Rückruf vereinbart für morgen",s=>({called:true,stage:s.stage==="neu"?"angerufen":s.stage,followUp:addDays(1),next:"Zurückrufen"})],
+    woche:["Nachfassen in einer Woche",s=>({called:true,followUp:addDays(7),next:"Nachfassen"})],
+    termin:["Zweittermin vereinbart, Entwurf bei Nils angefragt",s=>({called:true,stage:"termin",next:"Zweittermin: Entwurf zeigen"})],
+    entwurf:["Entwurf gezeigt",s=>({called:true,stage:"entwurf",followUp:addDays(3),next:"Nach Entscheidung fragen"})],
+    gewonnen:["Gewonnen, Vertrag unterschrieben",s=>({called:true,stage:"gewonnen",followUp:null,next:"Rechnung schicken",preisEinmal:num(s.preisEinmal)??DEF_ONCE,preisMonat:num(s.preisMonat)??DEF_MONTH})],
+    kein:["Kein Interesse",s=>({called:true,stage:"kein",followUp:null,next:""})]
+  };
+  function outcome(s,k,note){const o=OUT[k];const t=o[0]+(note?" – "+note:"");save(s.id,logP(s,t,o[1](s)),o[0]);if(k==="gewonnen")confetti()}
+
+  /* ---------- Ereignisse ---------- */
+  document.addEventListener("click",e=>{
+    const t=e.target;
+    const cp=t.closest("[data-copy]");if(cp){const v=cp.dataset.copy;(navigator.clipboard?navigator.clipboard.writeText(v):Promise.reject()).then(()=>toast("Nummer kopiert: "+v),()=>toast(v));return}
+    const qa=t.closest("[data-qa]");if(qa){const s=sites.find(x=>x.id===qa.dataset.id);if(s)outcome(s,qa.dataset.qa);return}
+    const op=t.closest("[data-open]");if(op&&!t.closest("#drawer")){openDrawer(op.dataset.open);return}
+    const tb=t.closest("[data-tab]");if(tb){tab=tb.dataset.tab;try{localStorage.setItem("kb_tab",tab)}catch(e){}renderView();return}
+    const dy=t.closest("[data-day]");if(dy){const k=dy.dataset.day;dayFilter=(!k||dayFilter===k)?null:k;tab="heute";render();return}
+    const so=t.closest("th[data-sort]");if(so){const k=so.dataset.sort;if(sortKey===k)sortDir*=-1;else{sortKey=k;sortDir=1}renderView();return}
+  });
+  document.addEventListener("change",e=>{
+    const t=e.target;
+    if(t.dataset.called){const s=sites.find(x=>x.id===t.dataset.called);const p={called:t.checked};
+      if(t.checked){Object.assign(p,logP(s,"Angerufen"));if(s.stage==="neu")p.stage="angerufen";if(!s.followUp)p.followUp=addDays(3)}else if(s.stage==="angerufen")p.stage="neu";
+      save(s.id,p,t.checked?"Angerufen – Follow-up in 3 Tagen":"Zurückgesetzt")}
+    if(t.dataset.follow)save(t.dataset.follow,{followUp:t.value||null},"Follow-up gespeichert");
+    if(t.dataset.stage)setStage(t.dataset.stage,t.value);
+  });
+  function setStage(id,stage){const s=sites.find(x=>x.id===id);if(!s||s.stage===stage)return;
+    if(stage==="gewonnen"){outcome(s,"gewonnen");return}
+    const p=logP(s,"Stand: "+stageOf(stage).label,{stage});if(stage!=="neu")p.called=true;if(stage==="kein")p.followUp=null;
+    save(id,p,"Stand: "+stageOf(stage).label)}
+  $("#q").addEventListener("input",renderView);
+  document.addEventListener("keydown",e=>{
+    if(e.key==="/"&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){e.preventDefault();$("#q").focus()}
+    if(e.key==="Enter"&&e.target.matches("[data-open]"))openDrawer(e.target.dataset.open);
+  });
+  function bindDnD(){
+    document.querySelectorAll(".kcard").forEach(c=>{
+      c.addEventListener("dragstart",e=>{e.dataTransfer.setData("text/plain",c.dataset.card);c.classList.add("dragging")});
+      c.addEventListener("dragend",()=>c.classList.remove("dragging"));
+    });
+    document.querySelectorAll(".lane").forEach(l=>{
+      l.addEventListener("dragover",e=>{e.preventDefault();l.classList.add("drop")});
+      l.addEventListener("dragleave",()=>l.classList.remove("drop"));
+      l.addEventListener("drop",e=>{e.preventDefault();l.classList.remove("drop");setStage(e.dataTransfer.getData("text/plain"),l.dataset.lane)});
+    });
+  }
+
+  /* ---------- Ziel ---------- */
+  function goalEditor(){const box=$("#goalTxt").parentElement;
+    box.innerHTML=`<form id="goalForm" style="display:flex;gap:6px;align-items:center"><label for="goalIn" style="font-size:12.5px">Ziel €/Monat</label><input id="goalIn" type="number" min="0" step="50" value="${goal}" style="width:100px;border-radius:7px;border:0;padding:4px 6px;color:#111"><button class="btn btn--sm" type="submit">OK</button></form>`;
+    $("#goalForm").onsubmit=async e=>{e.preventDefault();goal=Math.max(0,Number($("#goalIn").value)||0);
+      box.innerHTML=`<span id="goalTxt"></span><button type="button" id="goalEdit">Ziel ändern</button>`;$("#goalEdit").onclick=goalEditor;
+      renderTop();try{await db?.doc("settings/board").set({goal})}catch(err){toast("Ziel nicht gespeichert")}};
+  }
+  $("#goalEdit").onclick=goalEditor;
+
+  /* ---------- Detail ---------- */
+  const dlg=$("#dlg");
+  function openDrawer(id){openId=id;renderDrawer(true);if(!dlg.open)dlg.showModal()}
+  dlg.addEventListener("click",e=>{if(e.target===dlg)dlg.close()});
+  dlg.addEventListener("close",()=>{openId=null});
+  function fld(k,label,type,s,full,ph){const v=s[k]==null?"":esc(s[k]);
+    const inp=type==="textarea"?`<textarea id="f_${k}" data-f="${k}">${v}</textarea>`:`<input id="f_${k}" data-f="${k}" type="${type}" value="${v}"${ph?` placeholder="${ph}"`:""}${type==="number"?' min="0" step="1"':""}>`;
+    return`<div class="field"${full?' style="grid-column:1/-1"':""}><label for="f_${k}">${label}</label>${inp}</div>`}
+  function renderDrawer(){
+    const s=sites.find(x=>x.id===openId), box=$("#drawer"); if(!s)return;
+    const log=(s.log||[]).slice().reverse();
+    box.innerHTML=`<div class="drawer__hd"><div style="flex:1"><h2 id="dTitle">${esc(s.name)}</h2><p>${esc([s.branche,s.adresse||s.ort].filter(Boolean).join(" · "))}</p>
+      <p style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">${pill(s)} ${rel(s)} ${phone(s)}</p></div>
+      <button class="btn btn--ghost" type="button" id="dClose" aria-label="Schließen">✕</button></div>
+      <div class="drawer__bd">
+        <div class="sec"><h3>Ergebnis eintragen</h3><div class="quick">
+          ${[["nicht","Nicht erreicht · +2 Tage"],["morgen","Rückruf morgen"],["woche","In 1 Woche nachfassen"],["termin","Zweittermin vereinbart"],["entwurf","Entwurf gezeigt"],["gewonnen","Gewonnen 🎉"],["kein","Kein Interesse"]].map(([k,l])=>`<button class="btn btn--sm${k==="kein"?" btn--danger":""}" data-qa="${k}" data-id="${esc(s.id)}">${l}</button>`).join("")}
+        </div></div>
+        <div class="sec"><h3>Nächster Schritt</h3><div class="grid2">${fld("next","Was als Nächstes?","text",s)}${fld("followUp","Follow-up am","date",s)}</div></div>
+        <div class="sec"><h3>Preis</h3><div class="grid2">${fld("preisEinmal","Einmalig (€)","number",s,false,String(DEF_ONCE))}${fld("preisMonat","Monatlich (€)","number",s,false,String(DEF_MONTH))}</div>
+          <p style="font-size:12.5px;color:var(--ink-3);margin:6px 0 0">Leer = Standardpreis ${DEF_ONCE} € + ${DEF_MONTH} €/Monat.</p></div>
+        <div class="sec"><h3>Verlauf</h3>
+          ${log.length?`<ul class="log">${log.map(l=>`<li><time>${deDate(l.d)}${l.d.slice(0,4)}</time>${esc(l.t)}</li>`).join("")}</ul>`:`<p style="margin:0;color:var(--ink-2)">Noch keine Einträge.</p>`}
+          <form class="addlog" id="logForm"><input id="logText" placeholder="z. B. Inhaber will Preise per Brief" aria-label="Verlaufseintrag"><button class="btn btn--sm btn--primary" type="submit">Eintragen</button></form></div>
+        <div class="sec"><h3>Notizen</h3>${fld("notes","Notizen","textarea",s,true)}</div>
+        <div class="sec"><h3>Kontakt</h3><div class="grid2">${fld("inhaber","Inhaber / Ansprechpartner","text",s)}${fld("telefon","Telefon","tel",s)}${fld("email","E-Mail","email",s)}${fld("adresse","Adresse","text",s)}</div></div>
+        <div class="sec"><h3>Website</h3>
+          <div class="linkrow" style="margin-bottom:10px">${s.neu?`<a class="btn btn--sm" href="${esc(s.neu)}" target="_blank" rel="noopener">Neue Seite ↗</a>`:""}${s.alt?`<a class="btn btn--sm" href="${esc(s.alt)}" target="_blank" rel="noopener">Alte Seite ↗</a>`:""}${s.repo?`<a class="btn btn--sm" href="${esc(s.repo)}" target="_blank" rel="noopener">GitHub ↗</a>`:""}</div>
+          <div class="grid2">${fld("name","Firma","text",s)}${fld("branche","Branche","text",s)}${fld("ort","Ort","text",s)}
+          <div class="field"><label for="f_online">Online-Stand</label><select id="f_online" data-f="online">${Object.entries(ONLINE).map(([k,v])=>`<option value="${k}" ${s.online===k?"selected":""}>${v}</option>`).join("")}</select></div>
+          ${fld("neu","Link neue Seite","url",s)}${fld("alt","Link alte Seite","url",s)}${fld("repo","GitHub","url",s)}${fld("ordner","Ordner auf dem Mac","text",s)}</div></div>
+        <div class="sec" id="delBox"><button class="btn btn--sm btn--danger" type="button" id="delBtn">Eintrag löschen</button></div>
+      </div>`;
+    $("#dClose").onclick=()=>dlg.close();
+    box.querySelectorAll("[data-f]").forEach(el=>el.addEventListener("change",()=>{const k=el.dataset.f;let v=el.value.trim();
+      if(k==="preisEinmal"||k==="preisMonat")v=v===""?null:Math.max(0,Number(v));else if(k==="followUp")v=v||null;
+      save(s.id,{[k]:v},"Gespeichert")}));
+    $("#logForm").onsubmit=e=>{e.preventDefault();const t=$("#logText").value.trim();if(t)save(s.id,logP(s,t,{called:true}),"Im Verlauf eingetragen")};
+    $("#delBtn").onclick=()=>{$("#delBox").innerHTML=`<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">${esc(s.name)} wirklich löschen? <button class="btn btn--sm btn--danger" id="delYes" type="button">Ja, löschen</button><button class="btn btn--sm" id="delNo" type="button">Abbrechen</button></div>`;
+      $("#delNo").onclick=()=>renderDrawer();
+      $("#delYes").onclick=async()=>{dlg.close();sites=sites.filter(x=>x.id!==s.id);render();try{await db?.doc("sites/"+s.id).delete();toast("Gelöscht")}catch(e){toast("Nicht gelöscht")}}};
+  }
+
+  /* ---------- Neue Website ---------- */
+  $("#addBtn").onclick=()=>{openId="__new";$("#drawer").innerHTML=`<div class="drawer__hd"><div style="flex:1"><h2 id="dTitle">Website eintragen</h2><p>Neuer Betrieb fürs Board.</p></div><button class="btn btn--ghost" type="button" id="nClose" aria-label="Schließen">✕</button></div>
+      <form class="drawer__bd" id="newForm"><div class="grid2">
+        <div class="field" style="grid-column:1/-1"><label for="n_name">Firma</label><input id="n_name" required></div>
+        <div class="field"><label for="n_branche">Branche</label><input id="n_branche"></div><div class="field"><label for="n_ort">Ort</label><input id="n_ort"></div>
+        <div class="field"><label for="n_inhaber">Inhaber</label><input id="n_inhaber"></div><div class="field"><label for="n_telefon">Telefon</label><input id="n_telefon" type="tel"></div>
+        <div class="field"><label for="n_email">E-Mail</label><input id="n_email" type="email"></div><div class="field"><label for="n_neu">Link neue Seite</label><input id="n_neu" type="url"></div>
+      </div><div><button class="btn btn--primary" type="submit">Eintragen</button></div></form>`;
+    dlg.showModal();$("#nClose").onclick=()=>dlg.close();
+    $("#newForm").onsubmit=async e=>{e.preventDefault();if(!db){toast("Speichern gerade nicht möglich");return}
+      const g=k=>$("#n_"+k).value.trim();
+      const id=(g("name").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,50)||"site")+"-"+Date.now().toString(36);
+      try{await db.doc("sites/"+id).set({name:g("name"),branche:g("branche"),ort:g("ort"),inhaber:g("inhaber"),telefon:g("telefon"),email:g("email"),neu:g("neu"),alt:"",repo:"",adresse:"",ordner:"",online:g("neu")?"online":"lokal",stage:"neu",called:false,followUp:null,next:"Erstanruf",notes:"",preisEinmal:null,preisMonat:null,log:[{d:TODAY,t:"Eingetragen"}]});
+        dlg.close();toast("Eingetragen")}catch(err){toast("Nicht gespeichert")}};
+  };
+
+  /* ---------- Anruf-Modus ---------- */
+  const dd=$("#dialDlg"); let queue=[], qi=0, doneCount=0;
+  $("#dialBtn").onclick=()=>{
+    queue=sites.filter(isDue).sort((a,b)=>a.followUp.localeCompare(b.followUp)).concat(sites.filter(s=>s.stage==="neu"&&!isDue(s)).sort((a,b)=>a.name.localeCompare(b.name,"de"))).map(s=>s.id);
+    qi=0;doneCount=0;renderDial();dd.showModal()};
+  dd.addEventListener("click",e=>{if(e.target===dd)dd.close()});
+  function renderDial(){
+    const box=$("#dial");
+    if(qi>=queue.length){box.innerHTML=`<div class="done"><b>${queue.length?"Geschafft!":"Keine Anrufe offen"}</b><p style="color:var(--ink-2)">${queue.length?doneCount+" von "+queue.length+" Betrieben bearbeitet.":"Alle Follow-ups sind erledigt und alle Betriebe schon angerufen."}</p><button class="btn btn--primary btn--lg" id="dEnd" type="button">Schließen</button></div>`;
+      $("#dEnd").onclick=()=>dd.close();if(queue.length&&doneCount)confetti();return}
+    const s=sites.find(x=>x.id===queue[qi]);if(!s){qi++;renderDial();return}
+    const last=(s.log||[]).slice(-1)[0];
+    box.innerHTML=`<div class="dial__top"><small>${qi+1} / ${queue.length}</small><div class="dial__prog"><i style="width:${(qi/queue.length*100).toFixed(1)}%"></i></div><button class="btn btn--ghost btn--sm" id="dX" type="button" aria-label="Anruf-Modus beenden">✕</button></div>
+      <h2>${esc(s.name)}</h2><div class="who">${esc([s.inhaber||"Inhaber unbekannt",s.branche,s.ort].filter(Boolean).join(" · "))}</div>
+      <div class="bignum">${s.telefon?`<a href="${esc(telHref(s.telefon))}" style="color:inherit;text-decoration:none"><span>☎ ${esc(s.telefon)}</span></a>`:"<span>keine Nummer</span>"}${s.telefon?`<button class="btn btn--sm" type="button" data-copy="${esc(s.telefon)}">Kopieren</button>`:""}${s.neu?`<a class="btn btn--sm" href="${esc(s.neu)}" target="_blank" rel="noopener">Entwurf ansehen ↗</a>`:""}</div>
+      <div class="ctx"><div><b>Nächster Schritt</b><br>${esc(s.next||"Erstanruf")}</div>${last?`<div><b>Zuletzt</b><br>${deDate(last.d)} – ${esc(last.t)}</div>`:""}${s.notes?`<div><b>Notizen</b><br>${esc(s.notes)}</div>`:""}</div>
+      <input class="note" id="dNote" placeholder="Kurze Notiz zum Gespräch (optional)" aria-label="Notiz zum Gespräch">
+      <div class="outs">
+        <button class="btn btn--lg" data-do="nicht">Nicht erreicht · +2 Tage</button>
+        <button class="btn btn--lg" data-do="morgen">Rückruf morgen</button>
+        <button class="btn btn--lg" data-do="woche">In 1 Woche nachfassen</button>
+        <button class="btn btn--lg btn--primary" data-do="termin">Zweittermin vereinbart</button>
+        <button class="btn btn--lg btn--danger" data-do="kein">Kein Interesse</button>
+        <button class="btn btn--lg btn--ghost" data-do="skip">Überspringen →</button>
+      </div>`;
+    $("#dX").onclick=()=>dd.close();
+    box.querySelectorAll("[data-do]").forEach(b=>b.onclick=()=>{const k=b.dataset.do;
+      if(k!=="skip"){outcome(s,k,$("#dNote").value.trim());doneCount++}qi++;renderDial()});
+  }
+
+  /* ---------- Konfetti ---------- */
+  function confetti(){
+    if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+    const c=$("#fx"),x=c.getContext("2d");c.width=innerWidth;c.height=innerHeight;
+    const cols=["#2446e8","#4fd08c","#f2b453","#b79dff","#ff7b72"];
+    const P=Array.from({length:140},()=>({x:innerWidth/2,y:innerHeight/3,vx:(Math.random()-.5)*14,vy:Math.random()*-12-4,r:Math.random()*6+3,c:cols[Math.random()*5|0],a:Math.random()*6}));
+    let t=0;(function f(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.vy+=.35;p.x+=p.vx;p.y+=p.vy;p.a+=.2;x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.fillRect(-p.r/2,-p.r/2,p.r,p.r*.6);x.restore()});
+      if(++t<130)requestAnimationFrame(f);else x.clearRect(0,0,c.width,c.height)})();
+  }
+
+  /* ---------- Chat mit Claude ----------
+     Nachrichten liegen in der Collection "chat" ({from:"nils"|"claude", text, at, read, sent}).
+     Ist eine Claude-Code-Sitzung verbunden, geht jede Nachricht zusätzlich per Kommentar
+     "an Claude" – das weckt die Sitzung. Claude antwortet mit einem neuen Dokument in "chat". */
+  let comments=null, chat=[], sendState="off", chatThread=null, chatAnchor=null, chatOpen=false, seen="";
+  try{seen=localStorage.getItem("kb_chat_seen")||""}catch(e){}
+  const chatBox=$("#chat"), chatList=$("#chatList"), chatIn=$("#chatIn");
+  const fmtTime=a=>{const d=new Date(a);return(iso(d)===TODAY?"":pad(d.getDate())+"."+pad(d.getMonth()+1)+". ")+pad(d.getHours())+":"+pad(d.getMinutes())};
+  const STATE={available:["on","Claude ist verbunden – Antwort kommt gleich."],no_session:["off","Claude ist gerade nicht aktiv. Nachrichten werden gespeichert und beim nächsten Start gelesen."],writers_only:["off","Nur Bearbeiter des Boards erreichen Claude direkt. Nachrichten werden gespeichert."]};
+  function renderChat(){
+    const lastC=chat.filter(m=>m.from==="claude").slice(-1)[0];
+    if(chatOpen&&lastC&&lastC.at>seen){seen=lastC.at;try{localStorage.setItem("kb_chat_seen",seen)}catch(e){}}
+    $("#chatDot").hidden=!(lastC&&lastC.at>seen);
+    if(!chatOpen)return;
+    const st=STATE[sendState]||["off","Claude liest deine Nachrichten, sobald auf dem Mac eine Sitzung läuft."];
+    $("#chatState").textContent=db?st[1]:"Chat nur über claude.ai erreichbar."; $("#chatState").dataset.on=db?st[0]:"off";
+    const atEnd=chatList.scrollHeight-chatList.scrollTop-chatList.clientHeight<90;
+    chatList.innerHTML=chat.length?chat.map(m=>`<div class="msg msg--${m.from==="claude"?"c":"n"}">${esc(m.text)}<time>${fmtTime(m.at)}${m.from==="claude"?"":m.read?" · gelesen":m.sent?" · zugestellt":" · gespeichert"}</time></div>`).join("")
+      :`<div class="chat__empty">Schreib mir hier, was ich an einer Website ändern oder erledigen soll – auch unterwegs vom Handy.</div>`;
+    if(atEnd)chatList.scrollTop=chatList.scrollHeight;
+  }
+  async function refreshSend(){
+    if(!comments){sendState="off";renderChat();return}
+    try{sendState=await comments.canSendToClaude()}catch(e){sendState="off"}
+    try{chatAnchor=await comments.anchorFor(chatBox)}catch(e){chatAnchor=null}
+    renderChat();
+  }
+  function openChat(){chatOpen=true;chatBox.hidden=false;$("#chatFab").hidden=true;renderChat();chatList.scrollTop=chatList.scrollHeight;refreshSend();if(matchMedia("(pointer:fine)").matches)chatIn.focus()}
+  function closeChat(){chatOpen=false;chatBox.hidden=true;$("#chatFab").hidden=false;renderChat()}
+  $("#chatFab").onclick=openChat; $("#chatX").onclick=closeChat;
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&chatOpen)closeChat()});
+  document.addEventListener("visibilitychange",()=>{if(!document.hidden&&chatOpen)refreshSend()});
+  chatIn.addEventListener("input",()=>{chatIn.style.height="auto";chatIn.style.height=Math.min(140,chatIn.scrollHeight)+"px"});
+  chatIn.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey&&matchMedia("(pointer:fine)").matches){e.preventDefault();$("#chatForm").requestSubmit()}});
+  $("#chatForm").onsubmit=e=>{
+    e.preventDefault(); const text=chatIn.value.trim(); if(!text)return;
+    if(!db){toast("Chat nur über claude.ai erreichbar");return}
+    const ref=db.collection("chat").doc(), at=new Date().toISOString();
+    // zuerst (noch innerhalb des Tipp-Ereignisses) an Claude senden, dann speichern
+    let send=null;
+    if(comments&&sendState==="available"){
+      const body="Nachricht von Nils aus dem Kundenboard-Chat – bitte als neues Dokument in der Collection \"chat\" antworten (from:\"claude\") und chat/"+ref.id+" auf read:true setzen:\n\n"+text;
+      if(chatThread)send=comments.sendToClaude({threadId:chatThread,text:body});
+      else if(chatAnchor)send=comments.sendToClaude({anchor:chatAnchor,text:body});
+    }
+    const msg={from:"nils",text,at,read:false,sent:false};
+    chat=chat.concat([Object.assign({id:ref.id},msg)]); chatIn.value=""; chatIn.style.height=""; renderChat(); chatList.scrollTop=chatList.scrollHeight;
+    ref.set(msg).catch(()=>toast("Nachricht nicht gespeichert – bitte nochmal"));
+    if(send)send.then(r=>{ref.update({sent:true}).catch(()=>{});if(r.threadId!==chatThread){chatThread=r.threadId;db.doc("settings/chat").set({threadId:chatThread}).catch(()=>{})}},
+      err=>{const c=err&&err.code;
+        if(c==="not_found"){chatThread=null;db.doc("settings/chat").set({threadId:null}).catch(()=>{})}
+        toast(c==="consent_required"?"Bitte erlaube dem Board, Claude zu schreiben – Nachricht ist gespeichert":"Gespeichert – Claude liest sie beim nächsten Start");
+        refreshSend()});
+    else if(sendState!=="available")toast("Gespeichert – Claude liest sie beim nächsten Start");
+  };
+
+  /* ---------- Daten ---------- */
+  (async()=>{
+    if(!window.crestraDB)await new Promise(r=>addEventListener("crestra-ready",r,{once:true}));
+    try{db=await window.crestraDB()}catch(e){db=null}
+    if(!db){loaded=true;$("#notice").innerHTML=`<div class="notice">Die Daten sind gerade nicht erreichbar. Prüfe die Internetverbindung und lade neu.</div>`;render();return}
+    db.collection("sites").onSnapshot(snap=>{sites=snap.docs.map(d=>Object.assign({id:d.id},d.data()));loaded=true;$("#notice").innerHTML="";render()},
+      ()=>{$("#notice").innerHTML=`<div class="notice">Verbindung zu den Daten verloren. Seite neu laden.</div>`});
+    db.doc("settings/board").onSnapshot(d=>{if(d.exists&&typeof d.data().goal==="number"){goal=d.data().goal;renderTop()}},()=>{});
+    db.collection("chat").orderBy("at","desc").limit(150).onSnapshot(snap=>{chat=snap.docs.map(d=>Object.assign({id:d.id},d.data())).reverse();renderChat()},()=>{});
+    db.doc("settings/chat").onSnapshot(d=>{chatThread=d.exists?d.data().threadId||null:null},()=>{});
+    if(chatOpen)refreshSend();
+  })();
+  $("#logout").onclick=()=>window.crestraLogout&&window.crestraLogout();
+  render();
+})();
+</script>
+<script type="module">import "./db.js"; dispatchEvent(new Event("crestra-ready"));</script>
+<script>if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));</script>
+</body>
+</html>
