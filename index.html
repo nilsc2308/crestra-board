@@ -254,6 +254,8 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
 .login__card p{margin:0;color:var(--ink-2);font-size:14px}
 .login__card input{border:1px solid var(--line);background:var(--surface-2);border-radius:12px;padding:12px 14px;font-size:16px;width:100%}
 .passrow{position:relative}.passrow input{padding-right:52px}.passrow button{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:0;font-size:20px;cursor:pointer;padding:6px}
+.wa{background:#25d366;border-color:#25d366;color:#fff}
+a.btn{text-decoration:none}
 .linkbtn{background:none;border:0;padding:0;color:var(--accent);font-weight:600;cursor:pointer;justify-self:start;font-size:14px}
 .login__card form{display:grid;gap:10px}
 .login__msg{min-height:1.2em;font-size:13.5px;color:var(--ink-2)}
@@ -355,7 +357,7 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
     <div class="money">
       <small>Monatlicher Umsatz</small>
       <div class="big" id="mrr">–<span> / Monat</span></div>
-      <div class="sub"><span>Kunden <b id="won">–</b></span><span>Einmalzahlungen <b id="once">–</b></span><span>Jahreswert <b id="year">–</b></span></div>
+      <div class="sub"><span>Kunden <b id="won">–</b></span><span>Einmalzahlungen <b id="once">–</b></span><span>Jahreswert <b id="year">–</b></span><span id="pipeBox" hidden>In Aussicht <b id="pipeVal">–</b></span></div>
       <div class="goal"><div class="goal__bar"><i id="goalBar" style="width:0"></i></div>
         <div class="goal__txt"><span id="goalTxt">Ziel</span><button type="button" id="goalEdit">Ziel ändern</button></div></div>
     </div>
@@ -398,6 +400,7 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
 
 <dialog id="dlg" aria-labelledby="dTitle"><div class="drawer" id="drawer"></div></dialog>
 <dialog id="dialDlg" aria-label="Anruf-Modus"><div class="dial" id="dial"></div></dialog>
+<dialog id="afterDlg" aria-label="Wie lief der Anruf?"><div class="dial" id="after"></div></dialog>
 <canvas id="fx"></canvas>
 <div class="toast" id="toast" role="status"></div>
 <nav class="appnav" aria-label="Bereiche">
@@ -457,7 +460,7 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
   const stageVars=s=>{const st=stageOf(s.stage);return`--stage:var(${st.c});--stage-soft:var(${st.s})`};
   const pill=s=>`<span class="pill" style="${stageVars(s)}">${esc(stageOf(s.stage).label)}</span>`;
   const telHref=t=>"tel:"+String(t).replace(/[^\d+]/g,"");
-  const phone=s=>s.telefon?`<span class="phone"><a href="${esc(telHref(s.telefon))}">${esc(s.telefon)}</a><button type="button" class="copy" data-copy="${esc(s.telefon)}">Kopieren</button></span>`:`<span class="phone" style="color:var(--ink-3)">keine Nummer</span>`;
+  const phone=s=>s.telefon?`<span class="phone"><a href="${esc(telHref(s.telefon))}" data-call="${esc(s.id)}">${esc(s.telefon)}</a><button type="button" class="copy" data-copy="${esc(s.telefon)}">Kopieren</button></span>`:`<span class="phone" style="color:var(--ink-3)">keine Nummer</span>`;
   const matches=s=>{const q=$("#q").value.trim().toLowerCase();return!q||[s.name,s.ort,s.inhaber,s.telefon,s.branche,s.email,s.notes].join(" ").toLowerCase().includes(q)};
   function urgency(s){if(isDue(s))return 0;if(s.stage==="neu")return 1;if(active(s))return 2;if(s.stage==="gewonnen")return 3;return 4}
   const byUrgency=(a,b)=>urgency(a)-urgency(b)||(a.followUp||"9").localeCompare(b.followUp||"9")||a.name.localeCompare(b.name,"de");
@@ -468,6 +471,9 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
     const mrr=won.reduce((a,s)=>a+monthOf(s),0), once=won.reduce((a,s)=>a+onceOf(s),0);
     $("#mrr").innerHTML=eur(mrr)+'<span> / Monat</span>';
     $("#won").textContent=won.length; $("#once").textContent=eur(once); $("#year").textContent=eur(once+12*mrr);
+    // Umsatz in Aussicht: Betriebe mit Termin oder gezeigtem Entwurf, falls sie zusagen
+    const hot=sites.filter(s=>s.stage==="termin"||s.stage==="entwurf");
+    $("#pipeBox").hidden=!hot.length; $("#pipeVal").textContent="+"+eur(hot.reduce((a,s)=>a+monthOf(s),0))+" / Monat ("+hot.length+")";
     const pct=goal>0?Math.min(100,mrr/goal*100):0;
     $("#goalBar").style.width=pct.toFixed(1)+"%";
     $("#goalTxt").textContent=`Ziel ${eur(goal)} / Monat · ${pct<100?"noch "+eur(goal-mrr)+" (≈ "+Math.ceil((goal-mrr)/DEF_MONTH)+" Kunden)":"erreicht!"}`;
@@ -549,6 +555,14 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
 
   /* ---------- Begrüßung + Zahl am App-Symbol ---------- */
   const standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+  // Tage in Folge mit mindestens einem Kundenkontakt (zählt bis heute bzw. gestern)
+  const CONTACT=/anruf|angerufen|erreicht|termin|entwurf|gewonnen|interesse|gesprochen|rückruf|nachfass|whatsapp|e-mail geschickt/i;
+  function streak(){
+    const days=new Set();let today=0;
+    sites.forEach(s=>(s.log||[]).forEach(l=>{if(CONTACT.test(l.t)){days.add(l.d);if(l.d===TODAY)today++}}));
+    let n=0;for(let i=days.has(TODAY)?0:1;days.has(addDays(-i));i++)n++;
+    return{days:n,today};
+  }
   function renderHello(due){
     const h=new Date().getHours();
     $("#helloT").textContent=(h<11?"Guten Morgen":h<18?"Hallo":"Guten Abend")+", Nils";
@@ -556,6 +570,8 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
     const parts=[];
     if(due.length)parts.push(due.length===1?"1 Anruf ist heute dran":due.length+" Anrufe sind heute dran");
     if(fresh)parts.push(fresh+" Betriebe warten auf den Erstanruf");
+    const st=streak(); if(st.today)parts.unshift(st.today===1?"1 Kontakt heute":st.today+" Kontakte heute");
+    if(st.days>=2)parts.push("🔥 "+st.days+" Tage in Folge");
     $("#helloS").textContent=loaded?(parts.join(" · ")||"Alles erledigt – gute Arbeit!"):"";
     // Zahl am App-Symbol (iPhone: nur als installierte App mit erlaubten Mitteilungen)
     if("setAppBadge" in navigator){(due.length?navigator.setAppBadge(due.length):navigator.clearAppBadge()).catch(()=>{})}
@@ -588,6 +604,32 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
       else{card.style.transform="";bg.style.opacity=0}});
   })();
 
+  /* ---------- Nach dem Anruf: kurz nachfragen ---------- */
+  let pendingCall=null;
+  const ad=$("#afterDlg");
+  ad.addEventListener("click",e=>{if(e.target===ad)ad.close()});
+  document.addEventListener("visibilitychange",()=>{
+    if(document.hidden||!pendingCall)return;
+    const c=pendingCall;pendingCall=null;
+    const gone=Date.now()-c.at; if(gone<4000||gone>45*60000)return; // nur wenn wirklich telefoniert wurde
+    const s=sites.find(x=>x.id===c.id);if(!s)return;
+    const mins=Math.max(1,Math.round(gone/60000));
+    $("#after").innerHTML=`<div class="dial__top"><small>Gerade eben · ca. ${mins} Min.</small><div style="flex:1"></div><button class="btn btn--ghost btn--sm" id="aX" type="button" aria-label="Schließen">✕</button></div>
+      <h2>Wie lief's mit ${esc(s.name)}?</h2><div class="who">${esc(s.inhaber||s.ort||"")}</div>
+      <input class="note" id="aNote" placeholder="Kurze Notiz (optional)" aria-label="Notiz zum Gespräch">
+      <div class="outs">
+        <button class="btn btn--lg" data-ao="nicht">Nicht erreicht · +2 Tage</button>
+        <button class="btn btn--lg" data-ao="erreicht">Erreicht · in 3 Tagen nachfassen</button>
+        <button class="btn btn--lg" data-ao="morgen">Rückruf morgen</button>
+        <button class="btn btn--lg btn--primary" data-ao="termin">Zweittermin vereinbart</button>
+        <button class="btn btn--lg" data-ao="gewonnen">Gewonnen 🎉</button>
+        <button class="btn btn--lg btn--danger" data-ao="kein">Kein Interesse</button>
+      </div>`;
+    $("#aX").onclick=()=>ad.close();
+    $("#after").querySelectorAll("[data-ao]").forEach(b=>b.onclick=()=>{outcome(s,b.dataset.ao,$("#aNote").value.trim());ad.close()});
+    ad.showModal();
+  });
+
   function render(){renderTop();renderView();if(openId&&openId!=="__new"&&!$("#drawer").contains(document.activeElement))renderDrawer()}
 
   /* ---------- Speichern ---------- */
@@ -598,6 +640,18 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
     catch(e){toast("Nicht gespeichert – bitte nochmal")}
   }
   const logP=(s,t,extra)=>Object.assign({log:(s.log||[]).concat([{d:TODAY,t}])},extra||{});
+  // Nachrichtentext für den Kunden, mit Link zum neuen Entwurf
+  function pitchText(s){
+    const who=s.inhaber?"Guten Tag "+s.inhaber.split(/[(,]/)[0].trim():"Guten Tag";
+    return who+",\n\nhier ist Nils Cremerius. Ich habe für "+s.name+" einen Entwurf für eine neue Website gebaut – ganz unverbindlich:\n"+(s.neu||"")+"\n\nSchauen Sie gern einmal rein, ich freue mich auf Ihre Meinung!\n\nViele Grüße\nNils Cremerius";
+  }
+  function waNumber(t){let d=String(t||"").replace(/[^\d+]/g,"");if(d.startsWith("+"))return d.slice(1);if(d.startsWith("00"))return d.slice(2);if(d.startsWith("0"))return"49"+d.slice(1);return d}
+  function sendBtns(s){
+    if(!s.neu)return`<p style="margin:0;color:var(--ink-3);font-size:13.5px">Trag unten bei „Website“ den Link zur neuen Seite ein, dann kannst du ihn hier per WhatsApp oder E-Mail verschicken.</p>`;
+    const txt=pitchText(s);
+    return`<div class="quick">${s.telefon?`<a class="btn btn--sm wa" data-sent="WhatsApp" data-id="${esc(s.id)}" href="https://wa.me/${esc(waNumber(s.telefon))}?text=${encodeURIComponent(txt)}" target="_blank" rel="noopener">WhatsApp</a>`:""}${s.email?`<a class="btn btn--sm" data-sent="E-Mail" data-id="${esc(s.id)}" href="mailto:${esc(s.email)}?subject=${encodeURIComponent("Entwurf für Ihre neue Website – "+s.name)}&body=${encodeURIComponent(txt)}">E-Mail</a>`:""}<button class="btn btn--sm" type="button" data-copytext="${esc(txt)}">Text kopieren</button></div>
+      <p style="margin:6px 0 0;color:var(--ink-3);font-size:12.5px">Öffnet WhatsApp bzw. Mail mit fertigem Text und Link. Wird automatisch im Verlauf vermerkt.</p>`;
+  }
   const OUT={
     nicht:["Nicht erreicht",s=>({called:true,followUp:addDays(2),next:"Nochmal anrufen"})],
     erreicht:["Erreicht, Gespräch geführt",s=>({called:true,stage:s.stage==="neu"?"angerufen":s.stage,followUp:addDays(3),next:"Nachfassen"})],
@@ -613,6 +667,9 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
   /* ---------- Ereignisse ---------- */
   document.addEventListener("click",e=>{
     const t=e.target;
+    const sn=t.closest("[data-sent]");if(sn){const s=sites.find(x=>x.id===sn.dataset.id);if(s){const p=logP(s,"Entwurf per "+sn.dataset.sent+" geschickt",{called:true});if(!s.followUp||s.followUp<addDays(2))p.followUp=addDays(3);if(s.stage==="neu"||s.stage==="angerufen"){p.stage="entwurf";p.next="Nach Meinung zum Entwurf fragen"}save(s.id,p)}}
+    const ct=t.closest("[data-copytext]");if(ct){(navigator.clipboard?navigator.clipboard.writeText(ct.dataset.copytext):Promise.reject()).then(()=>toast("Text kopiert"),()=>toast("Kopieren nicht möglich"));return}
+    const tl=t.closest("a[data-call]");if(tl&&!dd.open){pendingCall={id:tl.dataset.call,at:Date.now()}}
     const cp=t.closest("[data-copy]");if(cp){const v=cp.dataset.copy;(navigator.clipboard?navigator.clipboard.writeText(v):Promise.reject()).then(()=>toast("Nummer kopiert: "+v),()=>toast(v));return}
     const qa=t.closest("[data-qa]");if(qa){const s=sites.find(x=>x.id===qa.dataset.id);if(s)outcome(s,qa.dataset.qa);return}
     const op=t.closest("[data-open]");if(op&&!t.closest("#drawer")){openDrawer(op.dataset.open);return}
@@ -683,6 +740,7 @@ dialog::backdrop{background:rgba(8,12,20,.5)}
           ${log.length?`<ul class="log">${log.map(l=>`<li><time>${deDate(l.d)}${l.d.slice(0,4)}</time>${esc(l.t)}</li>`).join("")}</ul>`:`<p style="margin:0;color:var(--ink-2)">Noch keine Einträge.</p>`}
           <form class="addlog" id="logForm"><input id="logText" placeholder="z. B. Inhaber will Preise per Brief" aria-label="Verlaufseintrag"><button class="btn btn--sm btn--primary" type="submit">Eintragen</button></form></div>
         <div class="sec"><h3>Notizen</h3>${fld("notes","Notizen","textarea",s,true)}</div>
+        <div class="sec"><h3>Entwurf schicken</h3>${sendBtns(s)}</div>
         <div class="sec"><h3>Kontakt</h3><div class="grid2">${fld("inhaber","Inhaber / Ansprechpartner","text",s)}${fld("telefon","Telefon","tel",s)}${fld("email","E-Mail","email",s)}${fld("adresse","Adresse","text",s)}</div></div>
         <div class="sec"><h3>Website</h3>
           <div class="linkrow" style="margin-bottom:10px">${s.neu?`<a class="btn btn--sm" href="${esc(s.neu)}" target="_blank" rel="noopener">Neue Seite ↗</a>`:""}${s.alt?`<a class="btn btn--sm" href="${esc(s.alt)}" target="_blank" rel="noopener">Alte Seite ↗</a>`:""}${s.repo?`<a class="btn btn--sm" href="${esc(s.repo)}" target="_blank" rel="noopener">GitHub ↗</a>`:""}</div>
