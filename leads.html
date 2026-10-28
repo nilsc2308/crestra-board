@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>crestra Leads</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="theme-color" content="#eceef2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0f16" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="crestra">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --ground:#eceef2; --surface:#ffffff; --surface-2:#f5f6f8; --ink:#111725; --ink-2:#485063; --ink-3:#7b8496;
+  --line:#dde1e8; --line-2:#c7cdd8; --accent:#2446e8; --accent-ink:#ffffff; --accent-soft:#e5eaff;
+  --red:#d3342c; --red-soft:#fde7e5; --amber:#b06a00; --amber-soft:#fff0d4; --green:#12804a; --green-soft:#daf2e5;
+  --violet:#6a3ed0; --violet-soft:#eee7ff; --teal:#0b7784; --teal-soft:#daf1f3; --grey-soft:#e9ecf1;
+  --hero:#111725; --hero-ink:#ffffff; --hero-2:#aab4c8;
+  --shadow:0 1px 2px rgba(17,23,37,.06),0 10px 30px rgba(17,23,37,.08);
+  --display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --body:"Hanken Grotesk","Helvetica Neue",Arial,system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark;
+  --ground:#0c0f16; --surface:#151a24; --surface-2:#1b2130; --ink:#eef1f6; --ink-2:#b4bccb; --ink-3:#8791a4;
+  --line:#252d3d; --line-2:#344056; --accent:#7f95ff; --accent-ink:#0c0f16; --accent-soft:#1c2452;
+  --red:#ff7b72; --red-soft:#3b1715; --amber:#f2b453; --amber-soft:#3a2a0d; --green:#4fd08c; --green-soft:#0f3120;
+  --violet:#b79dff; --violet-soft:#2a1f4d; --teal:#5ccfdb; --teal-soft:#0f3035; --grey-soft:#222a38;
+  --hero:#1f2a55; --hero-ink:#ffffff; --hero-2:#b9c3e6;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0c0f16; --surface:#151a24; --surface-2:#1b2130; --ink:#eef1f6; --ink-2:#b4bccb; --ink-3:#8791a4;
+  --line:#252d3d; --line-2:#344056; --accent:#7f95ff; --accent-ink:#0c0f16; --accent-soft:#1c2452;
+  --red:#ff7b72; --red-soft:#3b1715; --amber:#f2b453; --amber-soft:#3a2a0d; --green:#4fd08c; --green-soft:#0f3120;
+  --violet:#b79dff; --violet-soft:#2a1f4d; --teal:#5ccfdb; --teal-soft:#0f3035; --grey-soft:#222a38;
+  --hero:#1f2a55; --hero-ink:#ffffff; --hero-2:#b9c3e6;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45;padding-inline:16px;padding-block:0 72px}
+.wrap{max-width:1240px;margin:0 auto}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+a{color:var(--accent)}
+.mono{font-family:var(--mono)}
+
+.brand{display:flex;align-items:baseline;gap:10px;margin-right:auto}
+.brand b{font-family:var(--display);font-weight:800;font-size:28px;letter-spacing:-.035em;color:var(--accent)}
+.brand span{font-family:var(--display);font-weight:600;font-size:18px;color:var(--ink-2)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line-2);background:var(--surface);border-radius:10px;padding:9px 14px;font-weight:600;cursor:pointer;font-size:14px;white-space:nowrap}
+.btn:hover{border-color:var(--ink-3)}
+.btn--primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn--primary:hover{filter:brightness(1.08);border-color:var(--accent)}
+.btn--dark{background:var(--ink);border-color:var(--ink);color:var(--surface)}
+.btn--ghost{background:transparent;border-color:transparent}
+.btn--danger{color:var(--red)}
+.btn--sm{padding:6px 10px;font-size:13px;border-radius:8px}
+.btn--lg{padding:13px 18px;font-size:15px;border-radius:12px}
+
+.skel{height:84px;border-radius:14px;background:linear-gradient(90deg,var(--surface) 0%,var(--surface-2) 50%,var(--surface) 100%);background-size:200% 100%;animation:sk 1.2s linear infinite;border:1px solid var(--line)}
+@keyframes sk{to{background-position:-200% 0}}
+.notice{background:var(--surface);border:1px solid var(--line-2);border-radius:14px;padding:16px;color:var(--ink-2);margin-top:14px}
+@keyframes sk{from{background-position:200% 0}to{background-position:-200% 0}}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--surface);padding:9px 14px;border-radius:10px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s;z-index:10}
+.toast.on{opacity:1}
+.login{position:fixed;inset:0;z-index:30;background:var(--ground);display:grid;place-items:center;padding:24px}
+.login__card{width:min(380px,100%);background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:26px 22px;display:grid;gap:14px}
+.login__card .brand{margin:0 0 4px}
+.login__card p{margin:0;color:var(--ink-2);font-size:14px}
+.login__card input{border:1px solid var(--line);background:var(--surface-2);border-radius:12px;padding:12px 14px;font-size:16px;width:100%}
+.passrow{position:relative}.passrow input{padding-right:52px}.passrow button{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:0;font-size:20px;cursor:pointer;padding:6px}
+.wa{background:#25d366;border-color:#25d366;color:#fff}
+a.btn{text-decoration:none}
+.linkbtn{background:none;border:0;padding:0;color:var(--accent);font-weight:600;cursor:pointer;justify-self:start;font-size:14px}
+.login__card form{display:grid;gap:10px}
+.login__msg{min-height:1.2em;font-size:13.5px;color:var(--ink-2)}
+.foot{margin-top:40px;text-align:center;font-size:12.5px;color:var(--ink-3)}
+.foot button{background:none;border:0;color:var(--ink-3);text-decoration:underline;cursor:pointer;font-size:12.5px}
+/* Leads-Seite */
+.top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-block:20px 8px}
+.back{font-weight:600;text-decoration:none;font-size:14px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(26px,4vw,34px);letter-spacing:-.02em;margin:10px 0 4px;text-wrap:balance}
+.lede{margin:0;color:var(--ink-2);max-width:70ch}
+.rule{font-size:13px;color:var(--amber);background:var(--amber-soft);border-radius:10px;padding:8px 12px;margin-top:12px;max-width:80ch}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:18px;display:grid;gap:12px}
+.panel h2{font-family:var(--display);font-size:18px;margin:0}
+.req{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+select,.field{border:1px solid var(--line-2);background:var(--surface);border-radius:10px;padding:9px 12px;font-size:14px;min-width:0;max-width:100%}
+.field{flex:1 1 220px}
+.hint{font-size:13px;color:var(--ink-3)}
+.over{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.ov{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface-2)}
+.ov small{display:block;color:var(--ink-3);font-size:12px}
+.ov b{font-family:var(--mono);font-size:18px;font-variant-numeric:tabular-nums}
+.ov em{font-style:normal;font-size:12px;color:var(--ink-3)}
+.stabs{display:flex;gap:4px;margin-top:22px;border-bottom:1px solid var(--line);overflow-x:auto}
+.stab{background:none;border:0;padding:10px 12px;font-weight:700;color:var(--ink-3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;font-size:14px}
+.stab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.stab b{font-family:var(--mono);font-size:12px;margin-left:6px;color:var(--ink-3)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;align-items:center}
+.count{margin-left:auto;font-size:13px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.list{display:grid;gap:8px;margin-top:12px}
+.lead{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1.4fr) minmax(0,1.5fr);gap:6px 16px}
+.lead__name{font-weight:700;overflow-wrap:anywhere}
+.lead__meta{font-size:13px;color:var(--ink-3);overflow-wrap:anywhere}
+.lead__addr{font-size:14px;overflow-wrap:anywhere}
+.lead__web{font-size:14px;display:grid;gap:2px;min-width:0}
+.lead__web a{overflow-wrap:anywhere;text-decoration:none}
+.tel{font-family:var(--mono);font-size:13px;user-select:all}
+.chips{display:flex;flex-wrap:wrap;gap:4px;grid-column:1/-1}
+.chip{font-size:12px;line-height:1.7;padding:0 7px;border-radius:6px;background:var(--grey-soft);color:var(--ink-2);white-space:nowrap}
+.chip.m,.chip.f{background:var(--amber-soft);color:var(--amber)}
+.chip.y{background:var(--violet-soft);color:var(--violet);font-family:var(--mono)}
+.chip.s,.chip.t{background:var(--teal-soft);color:var(--teal)}
+.chip.st{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.acts{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;align-items:center;border-top:1px solid var(--line);padding-top:8px;margin-top:4px}
+.acts .note{flex:1 1 200px;border:1px solid var(--line);background:var(--surface-2);border-radius:8px;padding:6px 10px;font-size:13px;min-width:0}
+.btn[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.empty{padding:28px 16px;text-align:center;color:var(--ink-3);background:var(--surface);border:1px dashed var(--line-2);border-radius:14px}
+.pager{display:flex;gap:8px;justify-content:center;align-items:center;margin-top:12px;font-size:13px;color:var(--ink-3)}
+@media (max-width:760px){.lead{grid-template-columns:minmax(0,1fr)}.count{margin-left:0;width:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><b>crestra</b><span>Leads</span></div>
+    <a class="back" id="back" href="./" hidden>← Kundenboard</a>
+  </header>
+  <h1 id="hello">Leads</h1>
+  <p class="lede" id="lede">Hier bekommst du neue Betriebe aus der crestra-Lead-Liste. Die besten Leads werden zuerst vergeben: Betriebe, deren Website nachweislich veraltet ist.</p>
+  <div class="rule">Ansprache nur per Brief (UWG § 7). Im Brief nennen, woher die Adresse stammt (OpenStreetMap), und dass der Betrieb jederzeit widersprechen kann.</div>
+
+  <section class="panel" aria-labelledby="reqT">
+    <h2 id="reqT">Neue Leads anfordern</h2>
+    <div class="req">
+      <select id="rN" aria-label="Anzahl"><option value="10">10 Leads</option><option value="25" selected>25 Leads</option><option value="50">50 Leads</option></select>
+      <select id="rG" aria-label="Branche"></select>
+      <select id="rL" aria-label="Bundesland"></select>
+      <button class="btn btn--primary" type="button" id="reqBtn">Leads anfordern</button>
+    </div>
+    <div class="hint" id="reqHint">Du bekommst immer die nächsten freien Leads aus der Liste. Kein Lead geht an zwei Vertriebler.</div>
+  </section>
+
+  <section class="panel" id="adminPanel" hidden aria-labelledby="ovT">
+    <h2 id="ovT">Stand der Liste</h2>
+    <div class="over" id="over"></div>
+  </section>
+
+  <div class="stabs" role="tablist" id="stabs"></div>
+  <div class="filters">
+    <input class="field" id="q" type="search" placeholder="Firma, Ort oder PLZ suchen" aria-label="Suchen">
+    <select id="fG" aria-label="Branche filtern"></select>
+    <select id="fL" aria-label="Bundesland filtern"></select>
+    <select id="fA" aria-label="Lead-Art filtern">
+      <option value="">Alle Lead-Arten</option>
+      <option value="alt">Website veraltet</option>
+      <option value="social">Nur Facebook/Instagram</option>
+      <option value="keine">Keine Website</option>
+      <option value="tot">Domain tot</option>
+    </select>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="list" id="list"><div class="skel"></div></div>
+  <div class="pager" id="pager" hidden><button class="btn btn--sm" type="button" id="prev">← Zurück</button><span id="pageT"></span><button class="btn btn--sm" type="button" id="next">Weiter →</button></div>
+</div>
+
+<footer class="foot">crestra Leads · <button type="button" id="logout">Abmelden</button></footer>
+
+<div class="login" id="login" hidden>
+  <div class="login__card">
+    <div class="brand"><b>crestra</b><span>Leads</span></div>
+    <p id="loginIntro">Melde dich mit deiner E-Mail und deinem Passwort an.</p>
+    <form id="loginForm">
+      <input id="loginEmail" type="email" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="E-Mail" aria-label="E-Mail">
+      <div class="passrow"><input id="loginPass" type="password" autocomplete="current-password" autocapitalize="off" autocorrect="off" spellcheck="false" required placeholder="Passwort" aria-label="Passwort"><button type="button" id="loginShow" aria-label="Passwort anzeigen">👁</button></div>
+      <button class="btn btn--primary btn--lg" type="submit" id="loginSubmit">Anmelden</button>
+    </form>
+    <button type="button" class="linkbtn" id="loginReset">Passwort festlegen oder vergessen?</button>
+    <div class="login__msg" id="loginMsg" role="status"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(() => {
+  const GROUPS = { gastro: "Gastronomie", gesundheit: "Gesundheit", handel: "Einzelhandel", beauty: "Beauty & Pflege",
+    lebensmittel: "Lebensmittel & Getränke", handwerk: "Handwerk & Bau", kfz: "Kfz & Mobilität", unterkunft: "Unterkunft",
+    dienst: "Büro & Dienstleistung", freizeit: "Freizeit & Sport", sonstige: "Ohne Branchenangabe" };
+  const LANDS = ["Baden-Württemberg", "Bayern", "Berlin", "Brandenburg", "Bremen", "Hamburg", "Hessen", "Mecklenburg-Vorpommern",
+    "Niedersachsen", "Nordrhein-Westfalen", "Rheinland-Pfalz", "Saarland", "Sachsen", "Sachsen-Anhalt", "Schleswig-Holstein", "Thüringen"];
+  const STAND = [["vergeben", "Neu"], ["angeschrieben", "Angeschrieben"], ["termin", "Termin"], ["kunde", "Kunde"], ["kein_interesse", "Kein Interesse"], ["ungueltig", "Gibt's nicht mehr"]];
+  const STAND_LABEL = Object.fromEntries(STAND.concat([["frei", "Frei"]]));
+  const PAGE = 50;
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const fmt = (n) => Number(n || 0).toLocaleString("de-DE");
+  let db = null, sb = null, me = null, admin = false;
+  const st = { tab: "vergeben", page: 0, q: "", g: "", l: "", a: "" };
+
+  function toast(t) { const el = $("toast"); el.textContent = t; el.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove("on"), 2600); }
+  const opts = (first, map) => `<option value="">${first}</option>` + map.map(([v, l]) => `<option value="${esc(v)}">${esc(l)}</option>`).join("");
+
+  function setupSelects() {
+    const g = Object.entries(GROUPS), l = LANDS.map((x) => [x, x]);
+    $("rG").innerHTML = opts("Alle Branchen", g); $("fG").innerHTML = opts("Alle Branchen", g);
+    $("rL").innerHTML = opts("Ganz Deutschland", l); $("fL").innerHTML = opts("Alle Bundesländer", l);
+  }
+
+  function tabs() {
+    const list = (admin ? [["alle", "Alle"], ["frei", "Frei"]] : []).concat(STAND);
+    if (!list.some(([k]) => k === st.tab)) st.tab = list[0][0];
+    $("stabs").innerHTML = list.map(([k, l]) => `<button class="stab" role="tab" type="button" data-s="${k}" aria-selected="${k === st.tab}">${esc(l)}<b id="c_${k}"></b></button>`).join("");
+  }
+
+  async function counts() {
+    // Zahlen je Stand für die eigenen Leads (admin: alle)
+    let rows = [];
+    if (admin) {
+      const { data } = await sb.rpc("leads_uebersicht");
+      rows = data || [];
+      const tot = {};
+      rows.forEach((r) => { tot[r.status] = (tot[r.status] || 0) + Number(r.anzahl); });
+      const all = Object.values(tot).reduce((a, b) => a + b, 0);
+      const set = (k, v) => { const el = $("c_" + k); if (el) el.textContent = v ? fmt(v) : ""; };
+      set("alle", all); Object.keys(STAND_LABEL).forEach((k) => set(k, tot[k]));
+      const byG = {};
+      rows.forEach((r) => { const g = (byG[r.gruppe] = byG[r.gruppe] || { frei: 0, weg: 0 }); if (r.status === "frei") g.frei += Number(r.anzahl); else g.weg += Number(r.anzahl); });
+      $("over").innerHTML = `<div class="ov"><small>Gesamt</small><b>${fmt(all)}</b> <em>${fmt(tot.frei)} frei</em></div>` +
+        Object.entries(GROUPS).filter(([k]) => byG[k]).map(([k, l]) => `<div class="ov"><small>${esc(l)}</small><b>${fmt(byG[k].frei)}</b> <em>frei · ${fmt(byG[k].weg)} vergeben</em></div>`).join("");
+    } else {
+      const { data } = await sb.from("leads").select("status");
+      const c = {};
+      (data || []).forEach((r) => { c[r.status] = (c[r.status] || 0) + 1; });
+      STAND.forEach(([k]) => { const el = $("c_" + k); if (el) el.textContent = c[k] ? fmt(c[k]) : ""; });
+    }
+  }
+
+  function leadHtml(r) {
+    const host = (r.website || "").replace(/^https?:\/\//, "").replace(/^www\./, "").replace(/\/$/, "");
+    const chips = (r.maengel || []).map((c) => `<span class="chip ${esc(c[0])}">${esc(c[1])}</span>`).join("");
+    const stand = `<span class="chip st">${esc(STAND_LABEL[r.status] || r.status)}</span>`;
+    const mine = r.assigned_to === me;
+    const acts = r.status === "frei"
+      ? (admin ? `<button class="btn btn--sm" type="button" data-take="${r.id}">Mir zuteilen</button>` : "")
+      : (mine || admin ? STAND.map(([k, l]) => `<button class="btn btn--sm" type="button" data-set="${k}" data-id="${r.id}" aria-pressed="${r.status === k}">${esc(l)}</button>`).join("") +
+        (admin ? `<button class="btn btn--sm" type="button" data-board="${r.id}">Ins Kundenboard</button>` : "") +
+        `<input class="note" data-note="${r.id}" value="${esc(r.notiz)}" placeholder="Notiz" aria-label="Notiz">` +
+        `<button class="btn btn--sm btn--ghost" type="button" data-set="frei" data-id="${r.id}">Zurückgeben</button>` : "");
+    return `<article class="lead">
+      <div><div class="lead__name">${esc(r.firma)}</div><div class="lead__meta">${esc([GROUPS[r.gruppe], r.branche, r.inhaber].filter(Boolean).join(" · "))}</div></div>
+      <div class="lead__addr">${esc(r.strasse)}<br>${esc(r.plz)} ${esc(r.ort)}<div class="lead__meta">${esc(r.bundesland)}</div></div>
+      <div class="lead__web">${r.website ? `<a href="${esc(r.website)}" target="_blank" rel="noopener">${esc(host)}</a>` : `<span class="lead__meta">keine Website</span>`}${r.telefon ? `<span class="tel">${esc(r.telefon)}</span>` : ""}${r.email ? `<span class="lead__meta">${esc(r.email)}</span>` : ""}</div>
+      <div class="chips">${stand}${chips}</div>
+      ${acts ? `<div class="acts">${acts}</div>` : ""}
+    </article>`;
+  }
+
+  async function load() {
+    let q = sb.from("leads").select("*", { count: "exact" });
+    if (st.tab !== "alle") q = q.eq("status", st.tab);
+    if (st.g) q = q.eq("gruppe", st.g);
+    if (st.l) q = q.eq("bundesland", st.l);
+    if (st.a) q = st.a === "tot" ? q.in("art", ["tot", "fehler"]) : q.eq("art", st.a);
+    const s = st.q.trim().replace(/[,()*%]/g, " ").trim();
+    if (s) q = q.or(`firma.ilike.*${s}*,ort.ilike.*${s}*,plz.like.${s}*,inhaber.ilike.*${s}*`);
+    q = q.order(st.tab === "vergeben" || st.tab === "frei" || st.tab === "alle" ? "id" : "updated_at", { ascending: st.tab === "vergeben" || st.tab === "frei" || st.tab === "alle" });
+    const { data, count, error } = await q.range(st.page * PAGE, st.page * PAGE + PAGE - 1);
+    if (error) { $("list").innerHTML = `<div class="empty">Die Leads konnten nicht geladen werden. Seite neu laden.</div>`; return; }
+    $("count").textContent = `${fmt(count)} Leads`;
+    $("list").innerHTML = data.length ? data.map(leadHtml).join("")
+      : `<div class="empty">${st.tab === "vergeben" && !st.q && !st.g && !st.l && !st.a ? "Du hast gerade keine neuen Leads. Fordere oben welche an." : "Keine Leads für diese Auswahl."}</div>`;
+    const pages = Math.ceil(count / PAGE);
+    $("pager").hidden = pages <= 1;
+    $("pageT").textContent = `Seite ${st.page + 1} von ${fmt(pages)}`;
+    $("prev").disabled = st.page === 0; $("next").disabled = st.page + 1 >= pages;
+  }
+  const refresh = () => Promise.all([load(), counts()]);
+
+  async function request() {
+    const btn = $("reqBtn"); btn.disabled = true;
+    const { data, error } = await sb.rpc("leads_anfordern", { p_anzahl: Number($("rN").value), p_gruppe: $("rG").value || null, p_bundesland: $("rL").value || null });
+    btn.disabled = false;
+    if (error) { toast(error.message.includes("unbearbeitete") ? error.message : "Anfordern hat nicht geklappt. Bitte nochmal versuchen."); return; }
+    if (!data.length) { toast("Für diese Auswahl sind keine freien Leads mehr da. Wähle eine andere Branche oder Region."); return; }
+    toast(`${data.length} neue Leads zugeteilt`);
+    st.tab = "vergeben"; st.page = 0; tabs(); refresh();
+  }
+
+  async function setStand(id, status) {
+    const note = document.querySelector(`[data-note="${id}"]`);
+    const { error } = await sb.rpc("lead_stand", { p_id: Number(id), p_status: status, p_notiz: note ? note.value : null });
+    if (error) { toast("Speichern hat nicht geklappt. Bitte nochmal versuchen."); return; }
+    toast(status === "frei" ? "Lead zurück in die Liste gegeben" : `Stand: ${STAND_LABEL[status]}`);
+    refresh();
+  }
+
+  async function take(id) {
+    const { error } = await sb.from("leads").update({ status: "vergeben", assigned_to: me, assigned_at: new Date().toISOString(), updated_at: new Date().toISOString() }).eq("id", id).eq("status", "frei");
+    if (error) { toast("Zuteilen hat nicht geklappt."); return; }
+    toast("Lead dir zugeteilt"); refresh();
+  }
+
+  async function toBoard(id) {
+    const { data: r, error } = await sb.from("leads").select("*").eq("id", id).single();
+    if (error) { toast("Lead nicht gefunden."); return; }
+    const today = new Date().toISOString().slice(0, 10);
+    await db.doc("sites/lead-" + r.id).set({
+      name: r.firma, inhaber: r.inhaber, branche: r.branche, adresse: `${r.strasse}, ${r.plz} ${r.ort}`, ort: r.ort,
+      telefon: r.telefon, email: r.email, alt: r.website, neu: "", repo: "", ordner: "", online: "",
+      stage: "neu", next: "Erstanruf", called: false, followUp: null,
+      notes: `Aus der Lead-Liste (Nr. ${r.id}). Mängel: ${(r.maengel || []).map((c) => c[1]).join(", ") || "–"}.${r.notiz ? " Notiz: " + r.notiz : ""}`,
+      log: [{ d: today, t: "Aus der Lead-Liste übernommen" }],
+    });
+    if (r.status === "frei" || r.status === "vergeben") await sb.rpc("lead_stand", { p_id: r.id, p_status: "termin", p_notiz: r.notiz || "Ins Kundenboard übernommen" });
+    toast("Im Kundenboard angelegt"); refresh();
+  }
+
+  document.addEventListener("click", (e) => {
+    const t = e.target;
+    const s = t.closest("[data-s]"); if (s) { st.tab = s.dataset.s; st.page = 0; tabs(); refresh(); return; }
+    const set = t.closest("[data-set]"); if (set) { setStand(set.dataset.id, set.dataset.set); return; }
+    const tk = t.closest("[data-take]"); if (tk) { take(Number(tk.dataset.take)); return; }
+    const b = t.closest("[data-board]"); if (b) { toBoard(Number(b.dataset.board)); return; }
+  });
+  document.addEventListener("change", (e) => { const n = e.target.closest("[data-note]"); if (n) sb.rpc("lead_stand", { p_id: Number(n.dataset.note), p_status: (n.closest(".lead").querySelector('[aria-pressed="true"]') || {}).dataset?.set || "vergeben", p_notiz: n.value }).then(({ error }) => toast(error ? "Notiz nicht gespeichert" : "Notiz gespeichert")); });
+  let qt;
+  $("q").addEventListener("input", (e) => { clearTimeout(qt); qt = setTimeout(() => { st.q = e.target.value; st.page = 0; load(); }, 300); });
+  [["fG", "g"], ["fL", "l"], ["fA", "a"]].forEach(([id, k]) => $(id).addEventListener("change", (e) => { st[k] = e.target.value; st.page = 0; load(); }));
+  $("prev").onclick = () => { st.page--; load(); scrollTo({ top: $("stabs").offsetTop - 20 }); };
+  $("next").onclick = () => { st.page++; load(); scrollTo({ top: $("stabs").offsetTop - 20 }); };
+  $("reqBtn").onclick = request;
+  $("logout").onclick = () => window.crestraLogout && window.crestraLogout();
+
+  (async () => {
+    setupSelects();
+    if (!window.crestraDB) await new Promise((r) => addEventListener("crestra-ready", r, { once: true }));
+    try { db = await window.crestraDB(); } catch (e) { db = null; }
+    if (!db) { $("list").innerHTML = `<div class="empty">Die Daten sind gerade nicht erreichbar. Prüfe die Internetverbindung und lade neu.</div>`; return; }
+    sb = db.sb;
+    const { data: u } = await sb.auth.getUser();
+    me = u.user && u.user.id;
+    const prof = await db.role();
+    if (!prof) { $("list").innerHTML = `<div class="empty">Für dieses Konto ist der Lead-Bereich noch nicht freigeschaltet. Bitte bei Nils melden.</div>`; return; }
+    admin = prof.role === "admin";
+    $("hello").textContent = prof.name ? `Hallo, ${prof.name}` : "Leads";
+    $("back").hidden = !admin; $("adminPanel").hidden = !admin;
+    if (admin) { st.tab = "alle"; $("lede").textContent = "Alle Betriebe aus der crestra-Lead-Liste. Vertriebler bekommen über „Leads anfordern“ immer die nächsten freien Leads, die besten zuerst."; }
+    tabs(); refresh();
+  })();
+})();
+</script>
+<script type="module">import "./db.js"; dispatchEvent(new Event("crestra-ready"));</script>
+<script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
+</body>
+</html>

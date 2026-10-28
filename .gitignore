@@ -4,3 +4,4 @@ _quelle-claude-board.html
 node_modules/
 *.tar.gz
 _claude-chat.js
+_vertriebler.js

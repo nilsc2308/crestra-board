@@ -1,8 +1,8 @@
 // Service Worker: macht das Board installierbar und startet es auch bei schlechtem Netz.
 // Seiten und Code immer zuerst frisch aus dem Netz, bei Funkloch aus dem Speicher.
 // Die Daten selbst kommen live aus Supabase und werden hier nicht angefasst.
-const CACHE = "crestra-v3";
-const SHELL = ["./", "index.html", "db.js", "config.js", "manifest.webmanifest", "icons/icon.svg", "icons/icon-192.png", "icons/apple-touch-icon.png"];
+const CACHE = "crestra-v4";
+const SHELL = ["./", "index.html", "leads.html", "db.js", "config.js", "manifest.webmanifest", "icons/icon.svg", "icons/icon-192.png", "icons/apple-touch-icon.png"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));

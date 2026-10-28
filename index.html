@@ -106,6 +106,7 @@ a{color:var(--accent)}
 /* Reiter */
 .tabs{display:flex;gap:4px;margin-top:22px;border-bottom:1px solid var(--line);overflow-x:auto}
 .tab{background:none;border:0;padding:10px 14px;font-weight:700;color:var(--ink-3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;font-size:15px}
+.tab--link{text-decoration:none}
 .tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
 .tab b{font-family:var(--mono);font-size:12px;font-weight:600;margin-left:6px;color:var(--ink-3)}
 .tools{display:flex;gap:10px;align-items:center;margin-left:auto;padding-bottom:6px}
@@ -319,8 +320,8 @@ a.btn{text-decoration:none}
   .kcard{border-radius:14px;padding:12px}
   tbody tr{border-radius:18px}
   .fab{display:none}
-  .appnav{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;z-index:14;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));background:color-mix(in srgb,var(--surface) 88%,transparent);-webkit-backdrop-filter:saturate(1.6) blur(18px);backdrop-filter:saturate(1.6) blur(18px);border-top:1px solid var(--line)}
-  .navbtn{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;padding:6px 0 4px;font-size:11.5px;font-weight:700;color:var(--ink-3);cursor:pointer;border-radius:12px}
+  .appnav{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:14;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));background:color-mix(in srgb,var(--surface) 88%,transparent);-webkit-backdrop-filter:saturate(1.6) blur(18px);backdrop-filter:saturate(1.6) blur(18px);border-top:1px solid var(--line)}
+  .navbtn{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;padding:6px 0 4px;font-size:11.5px;font-weight:700;color:var(--ink-3);cursor:pointer;border-radius:12px;text-decoration:none}
   .navbtn svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
   .navbtn[aria-selected="true"]{color:var(--accent)}
   .navbtn[aria-selected="true"] svg{stroke-width:2.2}
@@ -375,6 +376,7 @@ a.btn{text-decoration:none}
     <button class="tab" role="tab" data-tab="heute" aria-selected="true">Heute</button>
     <button class="tab" role="tab" data-tab="pipeline" aria-selected="false">Pipeline</button>
     <button class="tab" role="tab" data-tab="liste" aria-selected="false">Alle<b id="tabAll"></b></button>
+    <a class="tab tab--link" href="leads.html">Leads</a>
     <div class="tools"><label class="search"><span aria-hidden="true">⌕</span><input id="q" type="search" placeholder="Suchen  ( / )" aria-label="Suchen"></label></div>
   </div>
 
@@ -407,6 +409,7 @@ a.btn{text-decoration:none}
   <button type="button" class="navbtn" data-tab="heute"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Heute<b id="navDue" hidden></b></button>
   <button type="button" class="navbtn" data-tab="pipeline"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4" width="4.5" height="16" rx="1.5"/><rect x="9.75" y="4" width="4.5" height="11" rx="1.5"/><rect x="16" y="4" width="4.5" height="7" rx="1.5"/></svg>Pipeline</button>
   <button type="button" class="navbtn" data-tab="liste"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></svg>Alle</button>
+  <a class="navbtn" href="leads.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>Leads</a>
   <button type="button" class="navbtn" id="navChat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a7.5 7.5 0 0 1-11.2 6.5L4 20l1.4-4.3A7.5 7.5 0 1 1 20 12z"/></svg>Claude<i id="navDot" hidden></i></button>
 </nav>
 <button class="fab" id="chatFab" type="button" aria-label="Chat mit Claude öffnen">💬 Claude<i id="chatDot" hidden></i></button>
@@ -875,6 +878,7 @@ a.btn{text-decoration:none}
   (async()=>{
     if(!window.crestraDB)await new Promise(r=>addEventListener("crestra-ready",r,{once:true}));
     try{db=await window.crestraDB()}catch(e){db=null}
+    if(db&&db.role){const p=await db.role().catch(()=>null);if(p&&p.role==="vertrieb"){location.replace("leads.html");return}}
     if(!db){loaded=true;$("#notice").innerHTML=`<div class="notice">Die Daten sind gerade nicht erreichbar. Prüfe die Internetverbindung und lade neu.</div>`;render();return}
     db.collection("sites").onSnapshot(snap=>{sites=snap.docs.map(d=>Object.assign({id:d.id},d.data()));loaded=true;$("#notice").innerHTML="";render()},
       ()=>{$("#notice").innerHTML=`<div class="notice">Verbindung zu den Daten verloren. Seite neu laden.</div>`});

@@ -126,7 +126,13 @@ function query(col, order = null, dir = "asc", lim = null) {
   };
 }
 
-const db = { doc: docRef, collection: (c) => query(c) };
+const db = { doc: docRef, collection: (c) => query(c), sb };
+
+// Rolle des angemeldeten Kontos: "admin" (Nils), "vertrieb" oder null (noch kein Profil)
+db.role = async () => {
+  const { data } = await sb.from("profiles").select("role,name").maybeSingle();
+  return data || null;
+};
 
 /* ---------- Anmeldung ---------- */
 
@@ -156,7 +162,9 @@ window.crestraDB = async function () {
   if (data.session && !recovery) return db;
   const box = $("login"), form = $("loginForm"), msg = $("loginMsg"), email = $("loginEmail"), pass = $("loginPass");
   box.hidden = false;
-  email.value = LOGIN_EMAIL || "";
+  let saved = "";
+  try { saved = localStorage.getItem("kb_email") || ""; } catch (e) {}
+  email.value = saved || LOGIN_EMAIL || "";
   showForm(data.session && recovery ? "new" : "login");
 
   $("loginShow").onclick = () => { pass.type = pass.type === "password" ? "text" : "password"; };
